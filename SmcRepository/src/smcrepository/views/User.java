@@ -12,7 +12,7 @@ public class User extends ViewPart {
 	
 	protected Text text;
 	protected TreeViewer treeViewer;
-	//protected MovingBoxLaberProvider labelProvider;
+	protected MovingBoxLabelProvider labelProvider;
 	protected MovingBox root;
 	
 		
@@ -36,8 +36,8 @@ public class User extends ViewPart {
 	
 		 treeViewer = new TreeViewer(parent);
 		 treeViewer.setContentProvider(new MovingBoxContentProvider());	//Setta il gestore del contenuto
-		 //labelProvider = new MovingBoxLabelProvider();
-		 //treeViewer.setLabelProvider(labelProvider);
+		 labelProvider = new MovingBoxLabelProvider();
+		 treeViewer.setLabelProvider(labelProvider);
 		 treeViewer.setUseHashlookup(true);
 		 
 		 treeViewer.setInput(getInitalInput());
