@@ -1,7 +1,6 @@
 package smcrepository.views;
 
 
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
@@ -65,9 +64,10 @@ public class TreeViewerPlugin extends AbstractUIPlugin {
 	public static ImageDescriptor getImageDescriptor(String name) {
 		String iconPath = "icons/";
 		try {
-			System.out.println("Ciao22222222222222222222222222222");
+			//System.out.println("Ciao22222222222222222222222222222");
 			//URL installURL = getDefault().getDescriptor().getInstallURL();
 			String percorso = iconPath + name;
+			//System.out.println("IL percorso vale :" + percorso);
 			//URL sample = get
 			URL url = new URL(percorso);
 			return ImageDescriptor.createFromURL(url);

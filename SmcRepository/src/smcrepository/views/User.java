@@ -1,12 +1,13 @@
 package smcrepository.views;
 
+import java.net.URL;
 import java.util.Iterator;
-
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
@@ -203,16 +204,41 @@ public class User extends ViewPart {
 				addNewBook();
 			}			
 		};
+	
+		//NON FUNZIONA (cercare di farlo funzionare con la classe "TreeViewerPlugin"
+		//addBookAction.setToolTipText("Add a New Book");
+		//addBookAction.setImageDescriptor(TreeViewerPlugin.getImageDescriptor("newBook.gif"));
+		
+		
+		
+		URL url1 = null;
+		URL url2 = null;
+		
+		
+		
+		
+		//ICONA +
+		url1 = getClass().getResource("/icons/newBook.gif");
 		addBookAction.setToolTipText("Add a New Book");
-		addBookAction.setImageDescriptor(TreeViewerPlugin.getImageDescriptor("newBook.gif"));
+		addBookAction.setImageDescriptor(ImageDescriptor.createFromURL(url1));
+	
+		
+			
+		
 
 		removeAction = new Action("Delete") {
 			public void run() {
 				removeSelected();
 			}			
 		};
+		
+		
+		//ICONA REMOVE
+		url2 = getClass().getResource("/icons/remove.gif");
 		removeAction.setToolTipText("Delete");
-		removeAction.setImageDescriptor(TreeViewerPlugin.getImageDescriptor("remove.gif"));		
+		removeAction.setImageDescriptor(ImageDescriptor.createFromURL(url2));
+		
+			
 	}
 	//FINE NUOVO
 	
