@@ -9,7 +9,8 @@ public class ThreeItemFilter extends ViewerFilter {
 	 * @see ViewerFilter#select(Viewer, Object, Object)
 	 */
 	public boolean select(Viewer viewer, Object parentElement, Object element) {
-		return parentElement instanceof MovingBox && ((MovingBox)parentElement).size() >= 3;
+		return parentElement instanceof MovingBox
+				&& ((MovingBox) parentElement).size() >= 3;
 	}
 
 }

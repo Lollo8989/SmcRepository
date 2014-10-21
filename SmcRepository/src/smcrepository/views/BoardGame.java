@@ -1,15 +1,11 @@
 package smcrepository.views;
+
 public class BoardGame extends Model {
-	
+
 	public BoardGame(String title, String authorGivenName, String authorSirName) {
 		super(title, authorGivenName, authorSirName);
 	}
-	
-	
-	
-	
-	
-	
+
 	/*
 	 * @see Model#accept(ModelVisitorI, Object)
 	 */

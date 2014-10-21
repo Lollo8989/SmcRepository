@@ -1,6 +1,5 @@
 package smcrepository.views;
 
-
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.MissingResourceException;
@@ -16,11 +15,11 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
  * The main plugin class to be used in the desktop.
  */
 public class TreeViewerPlugin extends AbstractUIPlugin {
-	//The shared instance.
+	// The shared instance.
 	private static TreeViewerPlugin plugin;
-	//Resource bundle.
+	// Resource bundle.
 	private ResourceBundle resourceBundle;
-	
+
 	/**
 	 * The constructor.
 	 */
@@ -28,7 +27,8 @@ public class TreeViewerPlugin extends AbstractUIPlugin {
 		super(descriptor);
 		plugin = this;
 		try {
-			resourceBundle= ResourceBundle.getBundle("cbg.article.treeviewer.TreeviewerPluginResource");
+			resourceBundle = ResourceBundle
+					.getBundle("cbg.article.treeviewer.TreeviewerPluginResource");
 		} catch (MissingResourceException x) {
 			resourceBundle = null;
 			System.out.println("Errore");
@@ -50,40 +50,41 @@ public class TreeViewerPlugin extends AbstractUIPlugin {
 	}
 
 	/**
-	 * Returns the string from the plugin's resource bundle,
-	 * or 'key' if not found.
+	 * Returns the string from the plugin's resource bundle, or 'key' if not
+	 * found.
 	 */
 	public static String getResourceString(String key) {
-		ResourceBundle bundle= TreeViewerPlugin.getDefault().getResourceBundle();
+		ResourceBundle bundle = TreeViewerPlugin.getDefault()
+				.getResourceBundle();
 		try {
 			return bundle.getString(key);
 		} catch (MissingResourceException e) {
 			return key;
 		}
 	}
-	
+
 	public static ImageDescriptor getImageDescriptor(String name) {
 		String iconPath = "icons/";
 		try {
 			System.out.println("Ciao22222222222222222222222222222");
-			//URL installURL = getDefault().getDescriptor().getInstallURL();
+			// URL installURL = getDefault().getDescriptor().getInstallURL();
 			String percorso = iconPath + name;
-			//URL sample = get
+			// URL sample = get
 			URL url = new URL(percorso);
 			return ImageDescriptor.createFromURL(url);
-		//} catch (MalformedURLException e) {
+			// } catch (MalformedURLException e) {
 		} catch (Exception e) {
-			e.printStackTrace();		
+			e.printStackTrace();
 			System.out.println("CiaoCatchhhhhhhhhhhhhhhhhhhhhhhhhhh");
 			// should not happen
 			return ImageDescriptor.getMissingImageDescriptor();
 		}
 	}
 
-	public static String Stampa(String text){
+	public static String Stampa(String text) {
 		return text;
 	}
-	
+
 	/**
 	 * Returns the plugin's resource bundle,
 	 */
