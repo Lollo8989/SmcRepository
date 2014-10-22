@@ -37,6 +37,16 @@
                   visible="true">
             </view>
             
+            <view
+                  id="org.eclipse.ui."
+                  minimized="false"
+                  moveable="false"
+                  ratio="0.5"
+                  relationship="right"
+                  relative="org.eclipse.jdt.ui.PackageExplorer"
+                  visible="true">
+            </view>
+            
  
       </perspectiveExtension>
    </extension>
@@ -54,6 +64,16 @@
             icon="icons/sample.gif"
             id="smcrepository.views.User"
             name="User"
+            relationship="left"
+            visible="true">
+      </view>
+      
+      <view
+            category="smcrepository_temp"
+            class="smcrepository.views.Comments"
+            icon="icons/sample.gif"
+            id="smcrepository.views.Comments"
+            name="Commenti"
             relationship="left"
             visible="true">
       </view>

@@ -9,6 +9,6 @@ public interface IModelVisitor {
 
 	// *************************************
 	public void visitResources(Resources resources, Object passAlongArgument);
-
+	public void visitWorkspaces(Workspaces workspaces,Object passAlongArgument);
 	// ***********************************
 }

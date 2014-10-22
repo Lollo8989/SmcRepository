@@ -49,6 +49,8 @@ public class User extends ViewPart {
 	// ********************************************
 	protected Repository repository;
 	protected List<Resources> resources;
+	protected List<Workspaces> workspaces;
+	
 	//protected List<Comments> comments;
 
 	// ********************************************
@@ -75,12 +77,11 @@ public class User extends ViewPart {
 		treeViewer.setContentProvider(new MovingBoxContentProvider()); // Setta
 																		// il
 																		// gestore
-																		// del
-																		// contenuto
+																		// del contenuto
 		labelProvider = new MovingBoxLabelProvider();
 		treeViewer.setLabelProvider(labelProvider);
 		treeViewer.setUseHashlookup(true);
-
+	
 		// NUOVO
 		// Create menu, toolbars, filters, sorters.
 		createFiltersAndSorters();
@@ -91,9 +92,7 @@ public class User extends ViewPart {
 		// FINE NUOVO
 
 		//******************************************************
-		//resources.add(new Resources(3, "ris1", "ASTS", "ciao", "Si",null));
-		//resources.add(new Resources(3, "ris2", "AnCTL", "booo", "No", null));
-		//resources.add(new Resources(4,"ris1","AnCTL","mi piace","Si",null));
+	
 		
 		//********************************************************
 		treeViewer.setInput(getInitalInput());
@@ -280,27 +279,36 @@ public class User extends ViewPart {
 
 		// ********************************************************
 		MovingBox res = new MovingBox("Resources");
+		MovingBox ws=new MovingBox("Workspaces");
 		MovingBox asts = new MovingBox("ASTS");
 		MovingBox anctl = new MovingBox("AnCTL");
 		MovingBox ontologie = new MovingBox("Ontologie");
+		
+		
 		// ********************************************************
 
 		root.add(someBooks);
 		root.add(games);
 		root.add(res);
-
+		root.add(ws);
 		// *******************************************
 		res.add(asts);
 		res.add(anctl);
 		res.add(ontologie);
 		 
-		anctl.add(new Resources(1, "Risorsa1"));
+	/*nctl.add(new Resources(1, "Risorsa1"));
 		anctl.add(new Resources(2,"Risorsa1"));
 		asts.add(new Resources(1, "Risorsa3"));
-		
+		*/
+		/*ws.add(new Workspaces("Ws1",1));
+		ws.add(new Workspaces("Ws2",2));
+		*/
 		repository=new Repository();
 		
 		resources=repository.getResourcesList();
+		
+		workspaces = repository.getWorkspaceList();
+		
 		
 		  for(int i=0;i<resources.size();i++) {
 			  
@@ -316,8 +324,21 @@ public class User extends ViewPart {
 			{
 				ontologie.add(new Resources(resources.get(i).getId(),resources.get(i).getName()));
 			} 
-			
+		  }
 		  
+		  for (int i=0;i<workspaces.size();i++) {
+			  
+			  MovingBox workspace=new MovingBox(workspaces.get(i).getId() + "-" + workspaces.get(i).getName());
+			  ws.add(workspace);
+			  
+			  List<Resources> resourcesList=null;
+			  resourcesList=workspaces.get(i).getResources();
+			  
+			  for(int j=0;j<resourcesList.size();j++)
+			  {
+				  workspace.add(new Resources(resourcesList.get(j).getId(),resourcesList.get(j).getName()));
+			  }
+			  
 		  }
 		 
 		// **********************************************************

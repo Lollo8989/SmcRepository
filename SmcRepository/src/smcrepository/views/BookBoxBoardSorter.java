@@ -19,6 +19,8 @@ public class BookBoxBoardSorter extends ViewerSorter {
 		// ***********************************************
 		if (element instanceof Resources)
 			return 4;
+		if (element instanceof Resources)
+			return 5;
 		// **********************************************
 		return 3;
 	}

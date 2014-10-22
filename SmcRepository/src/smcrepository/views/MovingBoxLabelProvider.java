@@ -44,10 +44,15 @@ public class MovingBoxLabelProvider extends LabelProvider {
 		//resources
 		url=getClass().getResource("/icons/sample.gif");
 		ir.put("Resources", ImageDescriptor.createFromURL(url));
-		
+		url=getClass().getResource("/icons/sample.gif");
+		ir.put("Workspaces", ImageDescriptor.createFromURL(url));
 		
         if (element instanceof Resources) {
         	return ir.get("Resources");
+        }
+        else if (element instanceof Workspaces) {
+        	
+        	return ir.get("Workspaces");
         }
         //********************************************************	
         else if (element instanceof MovingBox) {
@@ -86,6 +91,10 @@ public class MovingBoxLabelProvider extends LabelProvider {
 		} else if (element instanceof Resources) {
 			return (((Resources) element).getid() + "-" + ((Resources) element)
 					.getNameR());
+		}
+			else if (element instanceof Workspaces) {
+			return (((Workspaces) element).getidW() + "-" + ((Workspaces) element)
+					.getNameW());
 			// ***************************************************
 		} else
 			throw unknownElement(element);

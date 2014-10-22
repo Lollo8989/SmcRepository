@@ -1,5 +1,6 @@
 package smcrepository.views;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Resources extends Model {
@@ -10,8 +11,8 @@ public class Resources extends Model {
 	private String contenuto;
 	private String pubblico;
 	private List<Comments> comments;
-	private List<Resources> resources;
-	private List<Comments> commenti;
+	//private List<Resources> resources;
+	//private List<Comments> commenti;
 	
 	public Resources(int id, String name)
 	{
@@ -27,7 +28,8 @@ public class Resources extends Model {
 		this.tipologia = tipologia;
 		this.contenuto = contenuto;
 		this.pubblico = pubblico;
-		this.commenti = (List<Comments>) commenti;
+		this.comments=new ArrayList();
+		this.comments.addAll(commenti);
 	}
 
 	public int getId() {
@@ -72,10 +74,15 @@ public class Resources extends Model {
 	
 	
 
-	/*
-	 * public Comments getCommenti() { return commenti; } public void
-	 * setCommenti(Comments commenti) { this.commenti = commenti; }
-	 */
+	
+	 public List<Comments> getComments() {
+		 return comments; 
+	} 
+	 
+	 public void setCommenti(List<Comments> commenti) { 
+	 this.comments.addAll(commenti);
+	 }
+	
 
 	@Override
 	public void accept(IModelVisitor visitor, Object passAlongArgument) {

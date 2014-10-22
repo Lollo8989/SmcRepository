@@ -8,6 +8,7 @@ public class MovingBox extends Model {
 	protected List games;
 	protected List books;
 	protected List resources;
+	protected List workspaces;
 
 	private static IModelVisitor adder = new Adder();
 	private static IModelVisitor remover = new Remover();
@@ -17,6 +18,7 @@ public class MovingBox extends Model {
 		games = new ArrayList();
 		books = new ArrayList();
 		resources = new ArrayList();
+		workspaces= new ArrayList();
 	}
 
 	private static class Adder implements IModelVisitor {
@@ -41,7 +43,11 @@ public class MovingBox extends Model {
 		public void visitResources(Resources resources, Object argument) {
 			((MovingBox) argument).addResources(resources);
 		}
-
+		
+		public void visitWorkspaces(Workspaces workspaces, Object argument) {
+			((MovingBox) argument).addWorkspaces(workspaces);
+		}
+		
 		// *********************************************
 		public void visitBoardgame(BoardGame boardgame, Object argument) {
 			((MovingBox) argument).addBoardGame(boardgame);
@@ -69,7 +75,10 @@ public class MovingBox extends Model {
 		public void visitResources(Resources resources, Object argument) {
 			((MovingBox) argument).removeResources(resources);
 		}
-
+		
+		public void visitWorkspaces(Workspaces workspaces, Object argument) {
+			((MovingBox) argument).removeWorkspaces(workspaces);
+		}
 		// **********************************************************
 
 		public void visitBoardgame(BoardGame boardgame, Object argument) {
@@ -115,6 +124,11 @@ public class MovingBox extends Model {
 		resource.parent = this;
 		fireAdd(resource);
 	}
+	protected void addWorkspaces(Workspaces workspace) {
+		workspaces.add(workspace);
+		workspace.parent = this;
+		fireAdd(workspace);
+	}
 
 	// *********************************************
 
@@ -143,6 +157,11 @@ public class MovingBox extends Model {
 		resources.remove(resource);
 		resource.addListener(NullDeltaListener.getSoleInstance());
 		fireRemove(resource);
+	}
+	protected void removeWorkspaces(Workspaces workspace) {
+		workspaces.remove(workspace);
+		workspace.addListener(NullDeltaListener.getSoleInstance());
+		fireRemove(workspace);
 	}
 
 	// ************************************************
@@ -175,12 +194,15 @@ public class MovingBox extends Model {
 	public List getResources(){
 		return resources;
 	}
+	public List getWorkspaces(){
+		return workspaces;
+	}
 
 	/**
 	 * Answer the total number of items the receiver contains.
 	 */
 	public int size() {
-		return getBooks().size() + getBoxes().size() + getGames().size()+getResources().size();
+		return getBooks().size() + getBoxes().size() + getGames().size()+getResources().size()+getWorkspaces().size();
 	}
 
 	/*

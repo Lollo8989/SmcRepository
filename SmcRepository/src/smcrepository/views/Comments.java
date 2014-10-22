@@ -33,7 +33,7 @@ public class Comments {
 	}
 
 	public void setTesto(String testo) {
-		testo = testo;
+		this.testo = testo;
 	}
 
 }

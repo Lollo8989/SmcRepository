@@ -4,6 +4,8 @@ public abstract class Model {
 	protected MovingBox parent;
 	protected String name;
 	protected String nameR;
+	protected int idW;
+	protected String nameW;
 	protected int id;
 	protected String authorGivenName, authorSirName;
 	protected IDeltaListener listener = NullDeltaListener.getSoleInstance();
@@ -53,7 +55,25 @@ public abstract class Model {
 		this.nameR = nameR;
 		this.id = id;
 	}
-
+	
+	public Model(String nameW, int idW)
+	{
+		this.nameW=nameW;
+		this.idW=idW;
+	}
+	
+	public String getNameW()
+	{
+		return nameW;
+	}
+	
+	public void setNameW(String nameW) {
+		this.nameW = nameW;
+	}
+	
+	public int getidW() {
+		return idW;
+	}
 	public String getNameR() {
 		return nameR;
 	}
