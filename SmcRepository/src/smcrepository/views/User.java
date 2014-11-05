@@ -1,9 +1,11 @@
 package smcrepository.views;
 
+
+
 import java.net.URL;
 import java.util.Iterator;
-
 import java.util.List;
+
 
 
 import org.eclipse.jface.action.Action;
@@ -12,10 +14,7 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.resource.ImageDescriptor;
-
 import org.eclipse.jface.resource.ImageRegistry;
-
-
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
@@ -50,6 +49,8 @@ public class User extends ViewPart {
 	protected Repository repository;
 	protected List<Resources> resources;
 	protected List<Workspaces> workspaces;
+	//protected Comment comment;
+	//private ResourcesSelectionListener selectionListener;
 	
 	//protected List<Comments> comments;
 
@@ -74,14 +75,17 @@ public class User extends ViewPart {
 		text.setText("Prova");
 
 		treeViewer = new TreeViewer(parent);
-		treeViewer.setContentProvider(new MovingBoxContentProvider()); // Setta
-																		// il
-																		// gestore
-																		// del contenuto
+		//setta il gestore del contenuto
+		treeViewer.setContentProvider(new MovingBoxContentProvider()); 
+		
+														
 		labelProvider = new MovingBoxLabelProvider();
 		treeViewer.setLabelProvider(labelProvider);
 		treeViewer.setUseHashlookup(true);
-	
+		//comment=new Comment();
+
+		
+		getSite().setSelectionProvider(treeViewer);
 		// NUOVO
 		// Create menu, toolbars, filters, sorters.
 		createFiltersAndSorters();
@@ -272,10 +276,10 @@ public class User extends ViewPart {
 
 	public MovingBox getInitalInput() {
 		root = new MovingBox();
-		MovingBox someBooks = new MovingBox("Books");
-		MovingBox games = new MovingBox("Games");
-		MovingBox books = new MovingBox("More books");
-		MovingBox games2 = new MovingBox("More games");
+		//MovingBox someBooks = new MovingBox("Books");
+		//MovingBox games = new MovingBox("Games");
+		//MovingBox books = new MovingBox("More books");
+		//MovingBox games2 = new MovingBox("More games");
 
 		// ********************************************************
 		MovingBox res = new MovingBox("Resources");
@@ -287,8 +291,8 @@ public class User extends ViewPart {
 		
 		// ********************************************************
 
-		root.add(someBooks);
-		root.add(games);
+		//root.add(someBooks);
+		//root.add(games);
 		root.add(res);
 		root.add(ws);
 		// *******************************************
@@ -312,41 +316,45 @@ public class User extends ViewPart {
 		
 		  for(int i=0;i<resources.size();i++) {
 			  
-			if (resources.get(i).getTipologia()=="ASTS")
+			if (resources.get(i).getTipologiaR()=="ASTS")
 			{
-				asts.add(new Resources(resources.get(i).getId(),resources.get(i).getName()));
+				asts.add(new Resources(resources.get(i).getidR(),resources.get(i).getNameR(),resources.get(i).getTipologiaR(),
+						resources.get(i).getContenutoR(),resources.get(i).getPubblicoR(),resources.get(i).getCommentsR()));
 			}
-			if (resources.get(i).getTipologia()=="AnCTL")
+			if (resources.get(i).getTipologiaR()=="AnCTL")
 			{
-				anctl.add(new Resources(resources.get(i).getId(),resources.get(i).getName()));
+				anctl.add(new Resources(resources.get(i).getidR(),resources.get(i).getNameR(),resources.get(i).getTipologiaR(),
+						resources.get(i).getContenutoR(),resources.get(i).getPubblicoR(),resources.get(i).getCommentsR()));
 			}
-			if (resources.get(i).getTipologia()=="Ontologia")
+			if (resources.get(i).getTipologiaR()=="Ontologia")
 			{
-				ontologie.add(new Resources(resources.get(i).getId(),resources.get(i).getName()));
+				ontologie.add(new Resources(resources.get(i).getidR(),resources.get(i).getNameR(),resources.get(i).getTipologiaR(),
+						resources.get(i).getContenutoR(),resources.get(i).getPubblicoR(),resources.get(i).getCommentsR()));
 			} 
 		  }
 		  
 		  for (int i=0;i<workspaces.size();i++) {
 			  
-			  MovingBox workspace=new MovingBox(workspaces.get(i).getId() + "-" + workspaces.get(i).getName());
+			  MovingBox workspace=new MovingBox(workspaces.get(i).getidW() + "-" + workspaces.get(i).getNameW());
 			  ws.add(workspace);
 			  
 			  List<Resources> resourcesList=null;
-			  resourcesList=workspaces.get(i).getResources();
+			  resourcesList=workspaces.get(i).getResourcesW();
 			  
 			  for(int j=0;j<resourcesList.size();j++)
 			  {
-				  workspace.add(new Resources(resourcesList.get(j).getId(),resourcesList.get(j).getName()));
+				  workspace.add(new Resources(resourcesList.get(j).getidR(),resourcesList.get(j).getNameR(),resourcesList.get(i).getTipologiaR(),
+							resourcesList.get(j).getContenutoR(),resourcesList.get(j).getPubblicoR(),resourcesList.get(j).getCommentsR()));
 			  }
 			  
 		  }
 		 
 		// **********************************************************
-		someBooks.add(books);
+		//someBooks.add(books);
 		// someBooks.add(resources);
-		games.add(games2);
+		//games.add(games2);
 
-		books.add(new Book("The Lord of the Rings", "J.R.R.", "Tolkien"));
+		/*books.add(new Book("The Lord of the Rings", "J.R.R.", "Tolkien"));
 		games2.add(new BoardGame("Taj Mahal", "Reiner", "Knizia"));
 		books.add(new Book("Cryptonomicon", "Neal", "Stephenson"));
 
@@ -354,10 +362,7 @@ public class User extends ViewPart {
 		games.add(new BoardGame("Tigris & Euphrates", "Reiner", "Knizia"));
 		games.add(new BoardGame("La Citta", "Gerd", "Fenchel"));
 		games.add(new BoardGame("El Grande", "Wolfgang", "Kramer"));
-		games.add(new BoardGame("The Princes of Florence", "Richard", "Ulrich"));
-		games.add(new BoardGame("The Traders of Genoa", "Rudiger", "Dorn"));
-		games2.add(new BoardGame("Tikal", "M.", "Kiesling"));
-		games2.add(new BoardGame("Modern Art", "Reiner", "Knizia"));
+		*/
 		return root;
 	}
 

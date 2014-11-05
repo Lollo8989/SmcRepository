@@ -1,12 +1,17 @@
 package smcrepository.views;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class Model {
 	protected MovingBox parent;
 	protected String name;
-	protected String nameR;
+	protected String nameR,tipologiaR,contenutoR,pubblicoR;
+	protected List<Comments> commentiR;
 	protected int idW;
-	protected String nameW;
-	protected int id;
+	protected String nameW,descrizioneW,tipologiaW;
+	protected  List<Resources> resourcesW;
+	protected int idR;
 	protected String authorGivenName, authorSirName;
 	protected IDeltaListener listener = NullDeltaListener.getSoleInstance();
 
@@ -51,26 +56,63 @@ public abstract class Model {
 
 	}
 
-	public Model(int id, String nameR) {
+	public Model(int idR, String nameR,String tipologiaR,String contenutoR,String pubblicoR, List<Comments> commentiR) {
+		
 		this.nameR = nameR;
-		this.id = id;
+		this.idR = idR;
+		this.contenutoR=contenutoR;
+		this.tipologiaR=tipologiaR;
+		this.pubblicoR=pubblicoR;
+		this.commentiR=new ArrayList();
+		this.commentiR.addAll(commentiR);
 	}
 	
-	public Model(String nameW, int idW)
+	public Model(int idW,String nameW,String descrizioneW,String tipologiaW,List<Resources> resourcesW)
 	{
 		this.nameW=nameW;
 		this.idW=idW;
+		this.descrizioneW=descrizioneW;
+		this.tipologiaW=tipologiaW;
+		this.resourcesW=new ArrayList();
+		this.resourcesW.addAll(resourcesW);
 	}
 	
 	public String getNameW()
 	{
 		return nameW;
 	}
-	
-	public void setNameW(String nameW) {
-		this.nameW = nameW;
+	public String getDescrizioneW(){
+		return descrizioneW;
+	}
+	public String getTipologiaW(){
+		return tipologiaW;
+	}
+	public List<Resources> getResourcesW(){
+		return resourcesW;
 	}
 	
+	public String getTipologiaR() {
+		return tipologiaR;
+	}
+
+public String getContenutoR() {
+		return contenutoR;
+	}
+
+
+
+	public String getPubblicoR() {
+		return pubblicoR;
+	}
+
+
+	
+
+	 public List<Comments> getCommentsR() {
+		 return commentiR; 
+	} 
+	 
+
 	public int getidW() {
 		return idW;
 	}
@@ -78,12 +120,10 @@ public abstract class Model {
 		return nameR;
 	}
 	
-	public int getid() {
-		return id;
+	public int getidR() {
+		return idR;
 	}
-	public void setNameR(String nameR) {
-		this.nameR = nameR;
-	}
+	
 
 	// ***********************************************
 	public void removeListener(IDeltaListener listener) {

@@ -5,21 +5,21 @@ import java.util.List;
 
 public class Workspaces extends Model{
 	
-	private int id;
+	/*private int id;
 	private String name;
 	private String descrizione;
 	private String tipologia;
 	private List<Resources> resources;
-	
+	*/
 	//costructor
-	public Workspaces(String name, int id)
-	{
-		super(name,id);
-	}
+
 	
 	public Workspaces(int id,String name,String descrizione,String tipologia,List<Resources> resources)
 	{
-		this.id=id;
+		
+		super(id,name,descrizione,tipologia,resources);
+	}
+		/*this.id=id;
 		this.name=name;
 		this.descrizione=descrizione;
 		this.tipologia=tipologia;
@@ -56,7 +56,7 @@ public class Workspaces extends Model{
 	}
 	public void setResources(List<Resources> resources) {
 		this.resources = resources;
-	}
+	}*/
 	
 	
 	

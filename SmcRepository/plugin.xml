@@ -70,12 +70,13 @@
       
       <view
             category="smcrepository_temp"
-            class="smcrepository.views.Comments"
+            class="smcrepository.views.Comment"
             icon="icons/sample.gif"
-            id="smcrepository.views.Comments"
-            name="Commenti"
+            id="smcrepository.views.Commenti"
+            name="Comments"
             relationship="left"
             visible="true">
       </view>
+
       </extension>
 </plugin>

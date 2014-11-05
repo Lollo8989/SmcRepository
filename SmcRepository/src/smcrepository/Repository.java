@@ -29,10 +29,10 @@ public class Repository {
 		resourcesList=new ArrayList();
 		comments.add(new Comments("21/10/14","Paola","non mi piace"));
 		comments.add(new Comments("21/10/14","Lollo","va bene"));
-		resourcesList.add(new Resources(1, "RisASTS", "ASTS", "ciao", "Si",comments));
-		resourcesList.add(new Resources(1, "risAnCTL", "AnCTL", "booo", "No", comments));
-		resourcesList.add(new Resources(2,"RisAnCTL","AnCTL","mi piace","Si",comments));
-		resourcesList.add(new Resources(1,"Ontologia","Ontologia",null,"Si",comments));
+		resourcesList.add(new Resources(1, "RisASTS", "ASTS", "risorsa asts", "Si",comments));
+		resourcesList.add(new Resources(1, "RisAnCTL", "AnCTL", "booo", "No", comments));
+		resourcesList.add(new Resources(2,"RisAnCTL","AnCTL","risorsa anctl","Si",comments));
+		resourcesList.add(new Resources(1,"Ontologia","Ontologia","ontologia","Si",comments));
 		workspacesList=new ArrayList();
 		workspacesList.add(new Workspaces(1,"WS1","workspace1","pubblico",resourcesList));
 		workspacesList.add(new Workspaces(2,"WS2","workspace2","privato",resourcesList));

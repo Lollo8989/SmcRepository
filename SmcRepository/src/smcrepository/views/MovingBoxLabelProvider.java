@@ -89,7 +89,7 @@ public class MovingBoxLabelProvider extends LabelProvider {
 			return ((BoardGame) element).getTitle();
 			// ************************************************
 		} else if (element instanceof Resources) {
-			return (((Resources) element).getid() + "-" + ((Resources) element)
+			return (((Resources) element).getidR() + "-" + ((Resources) element)
 					.getNameR());
 		}
 			else if (element instanceof Workspaces) {

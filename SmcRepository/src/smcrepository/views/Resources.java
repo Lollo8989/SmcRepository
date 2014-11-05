@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Resources extends Model {
 
-	private int id;
+	/*private int id;
 	private String name;
 	private String tipologia;
 	private String contenuto;
@@ -13,17 +13,20 @@ public class Resources extends Model {
 	private List<Comments> comments;
 	//private List<Resources> resources;
 	//private List<Comments> commenti;
-	
-	public Resources(int id, String name)
+	*/
+	/*public Resources(int id, String name)
 	{
 		super(id,name);
 	}
-
+*/
 
 	public Resources(int id, String name, String tipologia, String contenuto,
 			String pubblico, List<Comments> commenti) {
 		
-		this.id = id;
+		super(id,name,tipologia,contenuto,pubblico,commenti);
+	}
+		
+		/*this.id = id;
 		this.name = name;
 		this.tipologia = tipologia;
 		this.contenuto = contenuto;
@@ -82,6 +85,7 @@ public class Resources extends Model {
 	 public void setCommenti(List<Comments> commenti) { 
 	 this.comments.addAll(commenti);
 	 }
+	 */
 	
 
 	@Override
