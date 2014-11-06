@@ -6,13 +6,16 @@ import java.util.List;
 public abstract class Model {
 	protected MovingBox parent;
 	protected String name;
+	//resources
+	protected int idR;
 	protected String nameR,tipologiaR,contenutoR,pubblicoR;
-	protected List<Comments> commentiR;
+	protected List<Comment> commentiR;
+	//workspaces
 	protected int idW;
 	protected String nameW,descrizioneW,tipologiaW;
-	protected  List<Resources> resourcesW;
-	protected int idR;
-	protected String authorGivenName, authorSirName;
+	protected  List<Resource> resourcesW;
+	
+	//protected String authorGivenName, authorSirName;
 	protected IDeltaListener listener = NullDeltaListener.getSoleInstance();
 
 	protected void fireAdd(Object added) {
@@ -45,18 +48,18 @@ public abstract class Model {
 		this.listener = listener;
 	}
 
-	public Model(String title, String authorGivenName, String authorSirName) {
+	/*public Model(String title, String authorGivenName, String authorSirName) {
 		this.name = title;
 		this.authorGivenName = authorGivenName;
 		this.authorSirName = authorSirName;
-	}
+	}*/
 
 	// **********************************************
 	public Model() {
 
 	}
 
-	public Model(int idR, String nameR,String tipologiaR,String contenutoR,String pubblicoR, List<Comments> commentiR) {
+	public Model(int idR, String nameR,String tipologiaR,String contenutoR,String pubblicoR, List<Comment> commentiR) {
 		
 		this.nameR = nameR;
 		this.idR = idR;
@@ -67,7 +70,7 @@ public abstract class Model {
 		this.commentiR.addAll(commentiR);
 	}
 	
-	public Model(int idW,String nameW,String descrizioneW,String tipologiaW,List<Resources> resourcesW)
+	public Model(int idW,String nameW,String descrizioneW,String tipologiaW,List<Resource> resourcesW)
 	{
 		this.nameW=nameW;
 		this.idW=idW;
@@ -87,7 +90,7 @@ public abstract class Model {
 	public String getTipologiaW(){
 		return tipologiaW;
 	}
-	public List<Resources> getResourcesW(){
+	public List<Resource> getResourcesW(){
 		return resourcesW;
 	}
 	
@@ -108,7 +111,7 @@ public String getContenutoR() {
 
 	
 
-	 public List<Comments> getCommentsR() {
+	 public List<Comment> getCommentsR() {
 		 return commentiR; 
 	} 
 	 
@@ -132,7 +135,7 @@ public String getContenutoR() {
 		}
 	}
 
-	public String authorGivenName() {
+	/*public String authorGivenName() {
 		return authorGivenName;
 	}
 
@@ -142,6 +145,6 @@ public String getContenutoR() {
 
 	public String getTitle() {
 		return name;
-	}
+	}*/
 
 }

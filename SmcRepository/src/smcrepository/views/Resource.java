@@ -3,7 +3,7 @@ package smcrepository.views;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Resources extends Model {
+public class Resource extends Model {
 
 	/*private int id;
 	private String name;
@@ -20,8 +20,8 @@ public class Resources extends Model {
 	}
 */
 
-	public Resources(int id, String name, String tipologia, String contenuto,
-			String pubblico, List<Comments> commenti) {
+	public Resource(int id, String name, String tipologia, String contenuto,
+			String pubblico, List<Comment> commenti) {
 		
 		super(id,name,tipologia,contenuto,pubblico,commenti);
 	}

@@ -67,7 +67,7 @@ public class TreeViewerPlugin extends AbstractUIPlugin {
 	public static ImageDescriptor getImageDescriptor(String name) {
 		String iconPath = "icons/";
 		try {
-			System.out.println("Ciao22222222222222222222222222222");
+		
 			// URL installURL = getDefault().getDescriptor().getInstallURL();
 
 			//System.out.println("Ciao22222222222222222222222222222");
@@ -85,7 +85,7 @@ public class TreeViewerPlugin extends AbstractUIPlugin {
 			// } catch (MalformedURLException e) {
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("CiaoCatchhhhhhhhhhhhhhhhhhhhhhhhhhh");
+	
 			// should not happen
 			return ImageDescriptor.getMissingImageDescriptor();
 		}

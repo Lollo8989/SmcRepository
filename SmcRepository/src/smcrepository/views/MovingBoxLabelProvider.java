@@ -29,12 +29,12 @@ public class MovingBoxLabelProvider extends LabelProvider {
 		ir.put("MovingBox", ImageDescriptor.createFromURL(url));
 
 		// Book
-		url = getClass().getResource("/icons/book.gif");
-		ir.put("Book", ImageDescriptor.createFromURL(url));
+		//url = getClass().getResource("/icons/book.gif");
+		//ir.put("Book", ImageDescriptor.createFromURL(url));
 
 		// BoardGame
-		url = getClass().getResource("/icons/gameboard.gif");
-		ir.put("BoardGame", ImageDescriptor.createFromURL(url));
+		//url = getClass().getResource("/icons/gameboard.gif");
+		//ir.put("BoardGame", ImageDescriptor.createFromURL(url));
 
 		// Other
 		url = getClass().getResource("/icons/sample.gif");
@@ -47,10 +47,10 @@ public class MovingBoxLabelProvider extends LabelProvider {
 		url=getClass().getResource("/icons/sample.gif");
 		ir.put("Workspaces", ImageDescriptor.createFromURL(url));
 		
-        if (element instanceof Resources) {
+        if (element instanceof Resource) {
         	return ir.get("Resources");
         }
-        else if (element instanceof Workspaces) {
+        else if (element instanceof Workspace) {
         	
         	return ir.get("Workspaces");
         }
@@ -59,13 +59,13 @@ public class MovingBoxLabelProvider extends LabelProvider {
 			return ir.get("MovingBox");
 		}
 
-		else if (element instanceof Book) {
-			return ir.get("Book");
-		}
+		//else if (element instanceof Book) {
+			//return ir.get("Book");
+		//}
 
-		else if (element instanceof BoardGame) {
-			return ir.get("BoardGame");
-		}
+		//else if (element instanceof BoardGame) {
+			//return ir.get("BoardGame");
+		//}
 
 		else {
 			return ir.get("Other");
@@ -83,17 +83,17 @@ public class MovingBoxLabelProvider extends LabelProvider {
 			} else {
 				return ((MovingBox) element).getName();
 			}
-		} else if (element instanceof Book) {
-			return ((Book) element).getTitle();
-		} else if (element instanceof BoardGame) {
-			return ((BoardGame) element).getTitle();
+		//} else if (element instanceof Book) {
+			//return ((Book) element).getTitle();
+		//} else if (element instanceof BoardGame) {
+			//return ((BoardGame) element).getTitle();
 			// ************************************************
-		} else if (element instanceof Resources) {
-			return (((Resources) element).getidR() + "-" + ((Resources) element)
+		} else if (element instanceof Resource) {
+			return (((Resource) element).getidR() + "-" + ((Resource) element)
 					.getNameR());
 		}
-			else if (element instanceof Workspaces) {
-			return (((Workspaces) element).getidW() + "-" + ((Workspaces) element)
+			else if (element instanceof Workspace) {
+			return (((Workspace) element).getidW() + "-" + ((Workspace) element)
 					.getNameW());
 			// ***************************************************
 		} else

@@ -12,17 +12,17 @@ public class BookBoxBoardSorter extends ViewerSorter {
 	 * which appear before board games.
 	 */
 	public int category(Object element) {
-		if (element instanceof Book)
-			return 1;
+		//if (element instanceof Book)
+			//return 1;
 		if (element instanceof MovingBox)
-			return 2;
+			return 1;
 		// ***********************************************
-		if (element instanceof Resources)
-			return 4;
-		if (element instanceof Resources)
-			return 5;
+		if (element instanceof Resource)
+			return 2;
+		if (element instanceof Workspace)
+			return 3;
 		// **********************************************
-		return 3;
+		return 4;
 	}
 
 }

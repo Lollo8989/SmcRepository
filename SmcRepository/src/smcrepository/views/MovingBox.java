@@ -5,8 +5,8 @@ import java.util.List;
 
 public class MovingBox extends Model {
 	protected List boxes;
-	protected List games;
-	protected List books;
+	//protected List games;
+	//protected List books;
 	protected List resources;
 	protected List workspaces;
 
@@ -15,8 +15,8 @@ public class MovingBox extends Model {
 
 	public MovingBox() {
 		boxes = new ArrayList();
-		games = new ArrayList();
-		books = new ArrayList();
+		//games = new ArrayList();
+		//books = new ArrayList();
 		resources = new ArrayList();
 		workspaces= new ArrayList();
 	}
@@ -40,25 +40,25 @@ public class MovingBox extends Model {
 		 */
 
 		// *******************************************
-		public void visitResources(Resources resources, Object argument) {
+		public void visitResources(Resource resources, Object argument) {
 			((MovingBox) argument).addResources(resources);
 		}
 		
-		public void visitWorkspaces(Workspaces workspaces, Object argument) {
+		public void visitWorkspaces(Workspace workspaces, Object argument) {
 			((MovingBox) argument).addWorkspaces(workspaces);
 		}
 		
 		// *********************************************
-		public void visitBoardgame(BoardGame boardgame, Object argument) {
+		/*public void visitBoardgame(BoardGame boardgame, Object argument) {
 			((MovingBox) argument).addBoardGame(boardgame);
-		}
+		}*/
 
 		/*
 		 * @see ModelVisitorI#visitBook(MovingBox, Object)
 		 */
-		public void visitBook(Book book, Object argument) {
+		/*public void visitBook(Book book, Object argument) {
 			((MovingBox) argument).addBook(book);
-		}
+		}*/
 
 		/*
 		 * @see ModelVisitorI#visitMovingBox(MovingBox, Object)
@@ -72,25 +72,25 @@ public class MovingBox extends Model {
 	private static class Remover implements IModelVisitor {
 
 		// ************************************************************
-		public void visitResources(Resources resources, Object argument) {
+		public void visitResources(Resource resources, Object argument) {
 			((MovingBox) argument).removeResources(resources);
 		}
 		
-		public void visitWorkspaces(Workspaces workspaces, Object argument) {
+		public void visitWorkspaces(Workspace workspaces, Object argument) {
 			((MovingBox) argument).removeWorkspaces(workspaces);
 		}
 		// **********************************************************
 
-		public void visitBoardgame(BoardGame boardgame, Object argument) {
+		/*public void visitBoardgame(BoardGame boardgame, Object argument) {
 			((MovingBox) argument).removeBoardGame(boardgame);
-		}
+		}*/
 
 		/*
 		 * @see ModelVisitorI#visitBook(MovingBox, Object)
 		 */
-		public void visitBook(Book book, Object argument) {
+		/*public void visitBook(Book book, Object argument) {
 			((MovingBox) argument).removeBook(book);
-		}
+		}*/
 
 		/*
 		 * @see ModelVisitorI#visitMovingBox(MovingBox, Object)
@@ -119,12 +119,12 @@ public class MovingBox extends Model {
 
 	// *********************************************
 
-	protected void addResources(Resources resource) {
+	protected void addResources(Resource resource) {
 		resources.add(resource);
 		resource.parent = this;
 		fireAdd(resource);
 	}
-	protected void addWorkspaces(Workspaces workspace) {
+	protected void addWorkspaces(Workspace workspace) {
 		workspaces.add(workspace);
 		workspace.parent = this;
 		fireAdd(workspace);
@@ -132,40 +132,40 @@ public class MovingBox extends Model {
 
 	// *********************************************
 
-	protected void addBook(Book book) {
+	/*protected void addBook(Book book) {
 		books.add(book);
 		book.parent = this;
 		fireAdd(book);
-	}
+	}*/
 
-	protected void addBoardGame(BoardGame game) {
+	/*protected void addBoardGame(BoardGame game) {
 		games.add(game);
 		game.parent = this;
 		fireAdd(game);
-	}
+	}*/
 
-	public List getBooks() {
+	/*public List getBooks() {
 		return books;
-	}
+	}*/
 
 	public void remove(Model toRemove) {
 		toRemove.accept(remover, this);
 	}
 
 	// ***********************************************
-	protected void removeResources(Resources resource) {
+	protected void removeResources(Resource resource) {
 		resources.remove(resource);
 		resource.addListener(NullDeltaListener.getSoleInstance());
 		fireRemove(resource);
 	}
-	protected void removeWorkspaces(Workspaces workspace) {
+	protected void removeWorkspaces(Workspace workspace) {
 		workspaces.remove(workspace);
 		workspace.addListener(NullDeltaListener.getSoleInstance());
 		fireRemove(workspace);
 	}
 
 	// ************************************************
-	protected void removeBoardGame(BoardGame boardGame) {
+	/*protected void removeBoardGame(BoardGame boardGame) {
 		games.remove(boardGame);
 		boardGame.addListener(NullDeltaListener.getSoleInstance());
 		fireRemove(boardGame);
@@ -176,7 +176,7 @@ public class MovingBox extends Model {
 		book.addListener(NullDeltaListener.getSoleInstance());
 		fireRemove(book);
 	}
-
+*/
 	protected void removeBox(MovingBox box) {
 		boxes.remove(box);
 		box.addListener(NullDeltaListener.getSoleInstance());
@@ -187,9 +187,9 @@ public class MovingBox extends Model {
 		toAdd.accept(adder, this);
 	}
 
-	public List getGames() {
+	/*public List getGames() {
 		return games;
-	}
+	}*/
 	//****************************************
 	public List getResources(){
 		return resources;
@@ -202,7 +202,8 @@ public class MovingBox extends Model {
 	 * Answer the total number of items the receiver contains.
 	 */
 	public int size() {
-		return getBooks().size() + getBoxes().size() + getGames().size()+getResources().size()+getWorkspaces().size();
+		return  getResources().size() + getBoxes().size() +getWorkspaces().size();
+				//getBooks().size() + getBoxes().size() + getGames().size()+getResources().size()+getWorkspaces().size();
 	}
 
 	/*

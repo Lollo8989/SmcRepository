@@ -38,17 +38,17 @@ public class User extends ViewPart {
 	protected MovingBox root;
 
 	// NUOVO
-	protected ViewerFilter onlyBoardGamesFilter, atLeastThreeFilter;
-	protected ViewerSorter booksBoxesGamesSorter, noArticleSorter;
-	protected Action onlyBoardGamesAction, atLeatThreeItems;
-	protected Action booksBoxesGamesAction, noArticleAction;
-	protected Action addBookAction, removeAction;
+	//protected ViewerFilter onlyBoardGamesFilter, atLeastThreeFilter;
+	//protected ViewerSorter booksBoxesGamesSorter, noArticleSorter;
+	//protected Action onlyBoardGamesAction, atLeatThreeItems;
+	//protected Action booksBoxesGamesAction, noArticleAction;
+	//protected Action addBookAction, removeAction;
 	// FINE NUOVO
 
 	// ********************************************
 	protected Repository repository;
-	protected List<Resources> resources;
-	protected List<Workspaces> workspaces;
+	protected List<Resource> resources;
+	protected List<Workspace> workspaces;
 	//protected Comment comment;
 	//private ResourcesSelectionListener selectionListener;
 	
@@ -88,11 +88,11 @@ public class User extends ViewPart {
 		getSite().setSelectionProvider(treeViewer);
 		// NUOVO
 		// Create menu, toolbars, filters, sorters.
-		createFiltersAndSorters();
-		createActions();
-		createMenus();
-		createToolbar();
-		hookListeners();
+		//createFiltersAndSorters();
+		//createActions();
+		//createMenus();
+		//createToolbar();
+		//hookListeners();
 		// FINE NUOVO
 
 		//******************************************************
@@ -105,15 +105,15 @@ public class User extends ViewPart {
 	}
 
 	// NUOVO
-	protected void createFiltersAndSorters() {
+	/*protected void createFiltersAndSorters() {
 		atLeastThreeFilter = new ThreeItemFilter();
 		onlyBoardGamesFilter = new BoardgameFilter();
 		booksBoxesGamesSorter = new BookBoxBoardSorter();
 		noArticleSorter = new NoArticleSorter();
-	}
+	}*/
 
 	/* Multiple filters can be enabled at a time. */
-	protected void updateFilter(Action action) {
+	/*protected void updateFilter(Action action) {
 		if (action == atLeatThreeItems) {
 			if (action.isChecked()) {
 				treeViewer.addFilter(atLeastThreeFilter);
@@ -128,8 +128,8 @@ public class User extends ViewPart {
 			}
 		}
 	}
-
-	protected void updateSorter(Action action) {
+*/
+	/*protected void updateSorter(Action action) {
 		if (action == booksBoxesGamesAction) {
 			noArticleAction.setChecked(!booksBoxesGamesAction.isChecked());
 			if (action.isChecked()) {
@@ -147,7 +147,7 @@ public class User extends ViewPart {
 		}
 
 	}
-
+*/
 	protected void removeSelected() {
 		if (treeViewer.getSelection().isEmpty()) {
 			return;
@@ -167,7 +167,7 @@ public class User extends ViewPart {
 		treeViewer.getTree().setRedraw(true);
 	}
 
-	protected void addNewBook() {
+	/*protected void addNewBook() {
 		MovingBox receivingBox;
 		if (treeViewer.getSelection().isEmpty()) {
 			receivingBox = root;
@@ -182,8 +182,8 @@ public class User extends ViewPart {
 			}
 		}
 		receivingBox.add(Book.newBook());
-	}
-
+	}*/
+/*
 	protected void createActions() {
 		onlyBoardGamesAction = new Action("Only Board Games") {
 			public void run() {
@@ -217,14 +217,14 @@ public class User extends ViewPart {
 			public void run() {
 				addNewBook();
 			}
-		};
+		};*/
 
 
 		// ImageRegistry ir = new ImageRegistry();
-		URL url = null;
-		URL url2 = null;
+		//URL url = null;
+		//URL url2 = null;
 		// NewBook
-		url = getClass().getResource("/icons/newBook.gif");
+		//url = getClass().getResource("/icons/newBook.gif");
 		// ir.put("NewBook", ImageDescriptor.createFromURL(url));
 
 
@@ -241,36 +241,36 @@ public class User extends ViewPart {
 		
 
 
-		addBookAction.setToolTipText("Add a New Book");
+		//addBookAction.setToolTipText("Add a New Book");
 
-		addBookAction.setImageDescriptor(ImageDescriptor.createFromURL(url));
+		//addBookAction.setImageDescriptor(ImageDescriptor.createFromURL(url));
 
 	
 	
 		
 			
 		
-
+/*
 
 		removeAction = new Action("Delete") {
 			public void run() {
 				removeSelected();
 			}
-		};
+		};*/
 
 
 		
 		
 		//ICONA REMOVE
 
-		url2 = getClass().getResource("/icons/remove.gif");
-		removeAction.setToolTipText("Delete");
-		removeAction.setImageDescriptor(ImageDescriptor.createFromURL(url2));
+		//url2 = getClass().getResource("/icons/remove.gif");
+		//removeAction.setToolTipText("Delete");
+		//removeAction.setImageDescriptor(ImageDescriptor.createFromURL(url2));
 
 		
 			
 
-	}
+	//}
 
 	// FINE NUOVO
 
@@ -291,8 +291,6 @@ public class User extends ViewPart {
 		
 		// ********************************************************
 
-		//root.add(someBooks);
-		//root.add(games);
 		root.add(res);
 		root.add(ws);
 		// *******************************************
@@ -318,17 +316,17 @@ public class User extends ViewPart {
 			  
 			if (resources.get(i).getTipologiaR()=="ASTS")
 			{
-				asts.add(new Resources(resources.get(i).getidR(),resources.get(i).getNameR(),resources.get(i).getTipologiaR(),
+				asts.add(new Resource(resources.get(i).getidR(),resources.get(i).getNameR(),resources.get(i).getTipologiaR(),
 						resources.get(i).getContenutoR(),resources.get(i).getPubblicoR(),resources.get(i).getCommentsR()));
 			}
 			if (resources.get(i).getTipologiaR()=="AnCTL")
 			{
-				anctl.add(new Resources(resources.get(i).getidR(),resources.get(i).getNameR(),resources.get(i).getTipologiaR(),
+				anctl.add(new Resource(resources.get(i).getidR(),resources.get(i).getNameR(),resources.get(i).getTipologiaR(),
 						resources.get(i).getContenutoR(),resources.get(i).getPubblicoR(),resources.get(i).getCommentsR()));
 			}
 			if (resources.get(i).getTipologiaR()=="Ontologia")
 			{
-				ontologie.add(new Resources(resources.get(i).getidR(),resources.get(i).getNameR(),resources.get(i).getTipologiaR(),
+				ontologie.add(new Resource(resources.get(i).getidR(),resources.get(i).getNameR(),resources.get(i).getTipologiaR(),
 						resources.get(i).getContenutoR(),resources.get(i).getPubblicoR(),resources.get(i).getCommentsR()));
 			} 
 		  }
@@ -338,12 +336,12 @@ public class User extends ViewPart {
 			  MovingBox workspace=new MovingBox(workspaces.get(i).getidW() + "-" + workspaces.get(i).getNameW());
 			  ws.add(workspace);
 			  
-			  List<Resources> resourcesList=null;
+			  List<Resource> resourcesList=null;
 			  resourcesList=workspaces.get(i).getResourcesW();
 			  
 			  for(int j=0;j<resourcesList.size();j++)
 			  {
-				  workspace.add(new Resources(resourcesList.get(j).getidR(),resourcesList.get(j).getNameR(),resourcesList.get(i).getTipologiaR(),
+				  workspace.add(new Resource(resourcesList.get(j).getidR(),resourcesList.get(j).getNameR(),resourcesList.get(i).getTipologiaR(),
 							resourcesList.get(j).getContenutoR(),resourcesList.get(j).getPubblicoR(),resourcesList.get(j).getCommentsR()));
 			  }
 			  
@@ -367,7 +365,7 @@ public class User extends ViewPart {
 	}
 
 	// NUOVO
-	protected void fillMenu(IMenuManager rootMenuManager) {
+	/*protected void fillMenu(IMenuManager rootMenuManager) {
 		IMenuManager filterSubmenu = new MenuManager("Filters");
 		rootMenuManager.add(filterSubmenu);
 		filterSubmenu.add(onlyBoardGamesAction);
@@ -425,7 +423,7 @@ public class User extends ViewPart {
 				}
 			}
 		});
-	}
+	}*/
 
 	// FINE NUOVO
 

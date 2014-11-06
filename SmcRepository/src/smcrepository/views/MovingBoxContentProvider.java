@@ -44,22 +44,23 @@ public class MovingBoxContentProvider implements ITreeContentProvider,
 	public Object[] getChildren(Object parentElement) {
 		if (parentElement instanceof MovingBox) {
 			MovingBox box = (MovingBox) parentElement;
-			return concat(box.getBoxes().toArray(), box.getBooks().toArray(),
-					box.getGames().toArray(), box.getResources().toArray(),box.getWorkspaces().toArray());
+			return concat(box.getBoxes().toArray(),box.getResources().toArray(),box.getWorkspaces().toArray());
+			//return concat(box.getBoxes().toArray(), box.getBooks().toArray(),
+				//	box.getGames().toArray(), box.getResources().toArray(),box.getWorkspaces().toArray());
 		}
 		return EMPTY_ARRAY;
 	}
 
-	protected Object[] concat(Object[] object, Object[] more, Object[] more2, Object[] more3, Object[] more4) {
-		Object[] both = new Object[object.length + more.length + more2.length + more3.length + more4.length];
+	protected Object[] concat(Object[] object, Object[] more, Object[] more2) {
+		Object[] both = new Object[object.length + more.length + more2.length];
 		System.arraycopy(object, 0, both, 0, object.length);
 		System.arraycopy(more, 0, both, object.length, more.length);
 		System.arraycopy(more2, 0, both, object.length + more.length,
 				more2.length);
-		System.arraycopy(more3, 0, both, object.length + more2.length,
+		/*System.arraycopy(more3, 0, both, object.length + more2.length,
 				more3.length);
 		System.arraycopy(more4, 0, both, object.length + more3.length,
-				more4.length);
+				more4.length);*/
 		return both;
 	}
     //****************************************************************

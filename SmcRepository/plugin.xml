@@ -70,7 +70,7 @@
       
       <view
             category="smcrepository_temp"
-            class="smcrepository.views.Comment"
+            class="smcrepository.views.CommentView"
             icon="icons/sample.gif"
             id="smcrepository.views.Commenti"
             name="Comments"

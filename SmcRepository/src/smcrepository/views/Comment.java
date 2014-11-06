@@ -1,12 +1,12 @@
 package smcrepository.views;
 
-public class Comments {
+public class Comment {
 	private String data;
 	private String autore;
 	private String testo;
 
 	// costruttore
-	public Comments(String data, String autore, String testo) {
+	public Comment(String data, String autore, String testo) {
 		this.data = data;
 		this.autore = autore;
 		this.testo = testo;

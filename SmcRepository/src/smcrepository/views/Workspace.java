@@ -3,7 +3,7 @@ package smcrepository.views;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Workspaces extends Model{
+public class Workspace extends Model{
 	
 	/*private int id;
 	private String name;
@@ -14,7 +14,7 @@ public class Workspaces extends Model{
 	//costructor
 
 	
-	public Workspaces(int id,String name,String descrizione,String tipologia,List<Resources> resources)
+	public Workspace(int id,String name,String descrizione,String tipologia,List<Resource> resources)
 	{
 		
 		super(id,name,descrizione,tipologia,resources);
