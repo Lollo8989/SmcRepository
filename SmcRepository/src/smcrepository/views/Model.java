@@ -15,8 +15,7 @@ public abstract class Model implements Serializable {
 	protected int idW;
 	protected String nameW,descrizioneW,tipologiaW;
 	protected  List<Resource> resourcesW;
-	
-	//protected String authorGivenName, authorSirName;
+
 	protected IDeltaListener listener = NullDeltaListener.getSoleInstance();
 
 	protected void fireAdd(Object added) {
@@ -49,17 +48,11 @@ public abstract class Model implements Serializable {
 		this.listener = listener;
 	}
 
-	/*public Model(String title, String authorGivenName, String authorSirName) {
-		this.name = title;
-		this.authorGivenName = authorGivenName;
-		this.authorSirName = authorSirName;
-	}*/
 
-	// **********************************************
 	public Model() {
 
 	}
-
+    //Resources
 	public Model(int idR, String nameR,String tipologiaR,String contenutoR,String pubblicoR, List<Comment> commentiR) {
 		
 		this.nameR = nameR;
@@ -70,7 +63,7 @@ public abstract class Model implements Serializable {
 		this.commentiR=new ArrayList();
 		this.commentiR.addAll(commentiR);
 	}
-	
+	//Workspaces
 	public Model(int idW,String nameW,String descrizioneW,String tipologiaW,List<Resource> resourcesW)
 	{
 		this.nameW=nameW;
@@ -80,6 +73,7 @@ public abstract class Model implements Serializable {
 		this.resourcesW=new ArrayList();
 		this.resourcesW.addAll(resourcesW);
 	}
+	
 	
 	public String getNameW()
 	{
@@ -136,16 +130,5 @@ public String getContenutoR() {
 		}
 	}
 
-	/*public String authorGivenName() {
-		return authorGivenName;
-	}
-
-	public String authorSirName() {
-		return authorSirName;
-	}
-
-	public String getTitle() {
-		return name;
-	}*/
 
 }

@@ -11,6 +11,7 @@ public class SmcRepository implements IPerspectiveFactory {
 		        "smcrepository.views.User";
 	public void createInitialLayout(IPageLayout layout) {
 		// TODO Auto-generated method stub
+		layout.setFixed(true);
 		String editorArea = layout.getEditorArea();
 		
 		

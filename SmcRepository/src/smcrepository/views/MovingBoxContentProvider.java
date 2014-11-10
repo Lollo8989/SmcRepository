@@ -45,8 +45,7 @@ public class MovingBoxContentProvider implements ITreeContentProvider,
 		if (parentElement instanceof MovingBox) {
 			MovingBox box = (MovingBox) parentElement;
 			return concat(box.getBoxes().toArray(),box.getResources().toArray(),box.getWorkspaces().toArray());
-			//return concat(box.getBoxes().toArray(), box.getBooks().toArray(),
-				//	box.getGames().toArray(), box.getResources().toArray(),box.getWorkspaces().toArray());
+			
 		}
 		return EMPTY_ARRAY;
 	}
@@ -57,13 +56,10 @@ public class MovingBoxContentProvider implements ITreeContentProvider,
 		System.arraycopy(more, 0, both, object.length, more.length);
 		System.arraycopy(more2, 0, both, object.length + more.length,
 				more2.length);
-		/*System.arraycopy(more3, 0, both, object.length + more2.length,
-				more3.length);
-		System.arraycopy(more4, 0, both, object.length + more3.length,
-				more4.length);*/
+		
 		return both;
 	}
-    //****************************************************************
+
 	public Object getParent(Object element) {
 		if (element instanceof Model) {
 			return ((Model) element).getParent();

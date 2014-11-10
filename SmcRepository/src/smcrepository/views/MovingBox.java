@@ -1,13 +1,11 @@
 package smcrepository.views;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MovingBox extends Model {
 	protected List boxes;
-	//protected List games;
-	//protected List books;
+
 	protected List resources;
 	protected List workspaces;
 
@@ -16,31 +14,11 @@ public class MovingBox extends Model {
 
 	public MovingBox() {
 		boxes = new ArrayList();
-		//games = new ArrayList();
-		//books = new ArrayList();
 		resources = new ArrayList();
 		workspaces= new ArrayList();
 	}
-
 	private static class Adder implements IModelVisitor {
 
-		/*
-		 * @see ModelVisitorI#visitBoardgame(BoardGame)
-		 */
-
-		/*
-		 * @see ModelVisitorI#visitBook(MovingBox)
-		 */
-
-		/*
-		 * @see ModelVisitorI#visitMovingBox(MovingBox)
-		 */
-
-		/*
-		 * @see ModelVisitorI#visitBoardgame(BoardGame, Object)
-		 */
-
-		// *******************************************
 		public void visitResources(Resource resources, Object argument) {
 			((MovingBox) argument).addResources(resources);
 		}
@@ -48,22 +26,7 @@ public class MovingBox extends Model {
 		public void visitWorkspaces(Workspace workspaces, Object argument) {
 			((MovingBox) argument).addWorkspaces(workspaces);
 		}
-		
-		// *********************************************
-		/*public void visitBoardgame(BoardGame boardgame, Object argument) {
-			((MovingBox) argument).addBoardGame(boardgame);
-		}*/
 
-		/*
-		 * @see ModelVisitorI#visitBook(MovingBox, Object)
-		 */
-		/*public void visitBook(Book book, Object argument) {
-			((MovingBox) argument).addBook(book);
-		}*/
-
-		/*
-		 * @see ModelVisitorI#visitMovingBox(MovingBox, Object)
-		 */
 		public void visitMovingBox(MovingBox box, Object argument) {
 			((MovingBox) argument).addBox(box);
 		}
@@ -80,22 +43,7 @@ public class MovingBox extends Model {
 		public void visitWorkspaces(Workspace workspaces, Object argument) {
 			((MovingBox) argument).removeWorkspaces(workspaces);
 		}
-		// **********************************************************
-
-		/*public void visitBoardgame(BoardGame boardgame, Object argument) {
-			((MovingBox) argument).removeBoardGame(boardgame);
-		}*/
-
-		/*
-		 * @see ModelVisitorI#visitBook(MovingBox, Object)
-		 */
-		/*public void visitBook(Book book, Object argument) {
-			((MovingBox) argument).removeBook(book);
-		}*/
-
-		/*
-		 * @see ModelVisitorI#visitMovingBox(MovingBox, Object)
-		 */
+		
 		public void visitMovingBox(MovingBox box, Object argument) {
 			((MovingBox) argument).removeBox(box);
 			box.addListener(NullDeltaListener.getSoleInstance());
@@ -118,7 +66,7 @@ public class MovingBox extends Model {
 		fireAdd(box);
 	}
 
-	// *********************************************
+
 
 	protected void addResources(Resource resource) {
 		resources.add(resource);
@@ -130,24 +78,6 @@ public class MovingBox extends Model {
 		workspace.parent = this;
 		fireAdd(workspace);
 	}
-
-	// *********************************************
-
-	/*protected void addBook(Book book) {
-		books.add(book);
-		book.parent = this;
-		fireAdd(book);
-	}*/
-
-	/*protected void addBoardGame(BoardGame game) {
-		games.add(game);
-		game.parent = this;
-		fireAdd(game);
-	}*/
-
-	/*public List getBooks() {
-		return books;
-	}*/
 
 	public void remove(Model toRemove) {
 		toRemove.accept(remover, this);
@@ -165,19 +95,6 @@ public class MovingBox extends Model {
 		fireRemove(workspace);
 	}
 
-	// ************************************************
-	/*protected void removeBoardGame(BoardGame boardGame) {
-		games.remove(boardGame);
-		boardGame.addListener(NullDeltaListener.getSoleInstance());
-		fireRemove(boardGame);
-	}
-
-	protected void removeBook(Book book) {
-		books.remove(book);
-		book.addListener(NullDeltaListener.getSoleInstance());
-		fireRemove(book);
-	}
-*/
 	protected void removeBox(MovingBox box) {
 		boxes.remove(box);
 		box.addListener(NullDeltaListener.getSoleInstance());
@@ -188,10 +105,7 @@ public class MovingBox extends Model {
 		toAdd.accept(adder, this);
 	}
 
-	/*public List getGames() {
-		return games;
-	}*/
-	//****************************************
+	
 	public List getResources(){
 		return resources;
 	}

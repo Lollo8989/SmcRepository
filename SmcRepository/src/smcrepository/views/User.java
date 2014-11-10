@@ -13,9 +13,6 @@ import java.util.List;
 
 
 
-
-
-
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
@@ -23,8 +20,11 @@ import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
+import org.eclipse.jface.viewers.DoubleClickEvent;
+import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.ListViewer;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.ViewerFilter;
@@ -36,6 +36,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.part.ViewPart;
 
 import smcrepository.PasswordDialog;
@@ -47,6 +48,8 @@ public class User extends ViewPart {
 	protected TreeViewer treeViewer;
 	protected MovingBoxLabelProvider labelProvider;
 	protected MovingBox root;
+	public static final String ID = "smcrepository.views.User";
+
 
 	// NUOVO
 	//protected ViewerFilter onlyBoardGamesFilter, atLeastThreeFilter;
@@ -60,12 +63,6 @@ public class User extends ViewPart {
 	protected Repository repository;
 	protected List<Resource> resources;
 	protected List<Workspace> workspaces;
-	//protected Comment comment;
-	//private ResourcesSelectionListener selectionListener;
-	
-	//protected List<Comments> comments;
-
-	// ********************************************
 
 	public void createPartControl(Composite parent) {
 		treeViewer = new TreeViewer(parent, SWT.MULTI | SWT.H_SCROLL
@@ -78,12 +75,12 @@ public class User extends ViewPart {
 		layout.marginHeight = 2;
 		parent.setLayout(layout);
 
-		text = new Text(parent, SWT.READ_ONLY | SWT.SINGLE | SWT.BORDER);
+		//text = new Text(parent, SWT.READ_ONLY | SWT.SINGLE | SWT.BORDER);
 		GridData layoutData = new GridData();
 		layoutData.grabExcessHorizontalSpace = true;
 		layoutData.horizontalAlignment = GridData.FILL;
-		text.setLayoutData(layoutData);
-		text.setText("Prova");
+		//text.setLayoutData(layoutData);
+		//text.setText("Prova");
 
 		treeViewer = new TreeViewer(parent);
 		//setta il gestore del contenuto
@@ -97,38 +94,21 @@ public class User extends ViewPart {
 
 		
 		getSite().setSelectionProvider(treeViewer);
-		// NUOVO
+		hookDoubleClickCommand();
 		// Create menu, toolbars, filters, sorters.
 		//createFiltersAndSorters();
 		//createActions();
 		//createMenus();
 		//createToolbar();
 		//hookListeners();
-		// FINE NUOVO
-
-		//******************************************************
 	
-		
-		//********************************************************
 		Shell shell=new Shell();
 		shell.setLayout(layout);
 		PasswordDialog dialog = new PasswordDialog(shell);
-		    
-		    // get the new values from the dialog
-		   /* if (dialog.open() == Window.OK) {
-		      String user = dialog.getUser();
-		      String pw = dialog.getPassword();
-		      System.out.println(user);
-		      System.out.println(pw);
-		      if(user.equals("paola") && pw.equals("123"))
-		      {*/
-		    	  //se il login è corretto vado a vedere se il file esiste già oppure se è danneggiato
-		    	  String USER_DIR_KEY = "user.dir";
-				   String currentDir = System.getProperty(USER_DIR_KEY); //Mi dice la directory attuale di lavoro
-				   String currentDir2 = currentDir.replace("\\", "\\\\");
-				   String savingFile = currentDir2.concat("\\\\repository_offline.rp");
-		    	   File file=new File(savingFile);
-		    	   if(!file.exists())
+		//se il login è corretto vado a vedere se il file esiste già oppure se è danneggiato
+					
+		File file=new File(Serializer.getPath());
+		if(!file.exists())
 		    	  {
 		    		   if (dialog.open() == Window.OK) {
 		    			      String user = dialog.getUser();
@@ -152,9 +132,7 @@ public class User extends ViewPart {
 		    	 
 		      }
 		    
-		//treeViewer.setInput(getInitalInput());
-		//treeViewer.expandAll();
-
+		
 
 	// NUOVO
 	/*protected void createFiltersAndSorters() {
@@ -272,14 +250,6 @@ public class User extends ViewPart {
 		};*/
 
 
-		// ImageRegistry ir = new ImageRegistry();
-		//URL url = null;
-		//URL url2 = null;
-		// NewBook
-		//url = getClass().getResource("/icons/newBook.gif");
-		// ir.put("NewBook", ImageDescriptor.createFromURL(url));
-
-
 	
 		//NON FUNZIONA (cercare di farlo funzionare con la classe "TreeViewerPlugin"
 		//addBookAction.setToolTipText("Add a New Book");
@@ -328,36 +298,19 @@ public class User extends ViewPart {
 
 	public MovingBox getInitalInput(Repository rep) {
 		root = new MovingBox();
-		//MovingBox someBooks = new MovingBox("Books");
-		//MovingBox games = new MovingBox("Games");
-		//MovingBox books = new MovingBox("More books");
-		//MovingBox games2 = new MovingBox("More games");
-
-		// ********************************************************
 		MovingBox res = new MovingBox("Resources");
 		MovingBox ws=new MovingBox("Workspaces");
 		MovingBox asts = new MovingBox("ASTS");
 		MovingBox anctl = new MovingBox("AnCTL");
 		MovingBox ontologie = new MovingBox("Ontologie");
-		
-		
-		// ********************************************************
 
 		root.add(res);
 		root.add(ws);
-		// *******************************************
+		
 		res.add(asts);
 		res.add(anctl);
 		res.add(ontologie);
 		 
-	/*nctl.add(new Resources(1, "Risorsa1"));
-		anctl.add(new Resources(2,"Risorsa1"));
-		asts.add(new Resources(1, "Risorsa3"));
-		*/
-		/*ws.add(new Workspaces("Ws1",1));
-		ws.add(new Workspaces("Ws2",2));
-		*/
-		//repository=new Repository();
 		
 		resources=rep.getResourcesList();
 		
@@ -399,20 +352,6 @@ public class User extends ViewPart {
 			  
 		  }
 		 
-		// **********************************************************
-		//someBooks.add(books);
-		// someBooks.add(resources);
-		//games.add(games2);
-
-		/*books.add(new Book("The Lord of the Rings", "J.R.R.", "Tolkien"));
-		games2.add(new BoardGame("Taj Mahal", "Reiner", "Knizia"));
-		books.add(new Book("Cryptonomicon", "Neal", "Stephenson"));
-
-		// books.add(new MovingBox());
-		games.add(new BoardGame("Tigris & Euphrates", "Reiner", "Knizia"));
-		games.add(new BoardGame("La Citta", "Gerd", "Fenchel"));
-		games.add(new BoardGame("El Grande", "Wolfgang", "Kramer"));
-		*/
 		Serializer.saveFile(rep); 
 		return root;
 	}
@@ -480,12 +419,28 @@ public class User extends ViewPart {
 
 	// FINE NUOVO
 
+
+	 private void hookDoubleClickCommand() {
+		    treeViewer.addDoubleClickListener(new IDoubleClickListener() {
+		      public void doubleClick(DoubleClickEvent event) {
+		        IHandlerService handlerService = (IHandlerService) getSite()
+		            .getService(IHandlerService.class);
+		        try {
+		          handlerService.executeCommand("SmcRepository.command1", null);
+		        } catch (Exception ex) {
+		          throw new RuntimeException("smcrepository.CallEditor not found");
+		        }
+		      }
+		    });
+		  }
+	
+	
+	
+	
+	
 	@Override
 	public void setFocus() {
 		// TODO Auto-generated method stub
 
 	}
- //CIAO
-	//CIAO2
-	//CIAO3
 }

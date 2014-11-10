@@ -10,25 +10,29 @@ import smcrepository.Repository;
 
 public class Serializer {
  
-     
+   //Ritorna il percorso di dove vengono salvati/caricati i file
+	public static String getPath(){
+		 String USER_DIR_KEY = "user.dir";
+		   String currentDir = System.getProperty(USER_DIR_KEY); //Mi dice la directory attuale di lavoro
+		   String currentDirUpdate = currentDir.replace("\\", "\\\\");
+		   String savingFile = currentDirUpdate.concat("\\\\repository_offline.rp"); 
+		   return savingFile;
+	}
    
+	
+	
    //Ritorna true se la creazione/scrittura del file è avvenuta corretamente altrimenti ritorna false
    public static boolean saveFile(Repository repo){
-			   //Serve per creare il file per il salvataggio
-			   String USER_DIR_KEY = "user.dir";
-			   String currentDir = System.getProperty(USER_DIR_KEY); //Mi dice la directory attuale di lavoro
-			   String currentDir2 = currentDir.replace("\\", "\\\\");
-			   String savingFile = currentDir2.concat("\\\\repository_offline.rp");
 			   	    
 			   try{
-					  File file = new File(savingFile);
+					  File file = new File(getPath());
 				      if (file.createNewFile()){
 				        System.out.println("File is created!");
 				      }else{
 				        System.out.println("File already exists.");
 				      }
 		
-		 			  FileOutputStream fout = new FileOutputStream(savingFile);
+		 			  FileOutputStream fout = new FileOutputStream(getPath());
 					  ObjectOutputStream oos = new ObjectOutputStream(fout);   
 					  oos.writeObject(repo);
 					  oos.close();
@@ -39,7 +43,7 @@ public class Serializer {
 				   System.err.println("Scrittura errata");
 				   return false;
 			   }
-			   return true;
+		return true;
    }
    
    
@@ -48,14 +52,8 @@ public class Serializer {
 	  Repository repo = null; 	  
   
 	  try{
-			   
-		   String USER_DIR_KEY = "user.dir";
-		   String currentDir = System.getProperty(USER_DIR_KEY); //Mi dice la directory attuale di lavoro
-		   String currentDir2 = currentDir.replace("\\", "\\\\");
-		   String savingFile = currentDir2.concat("\\\\repository_offline.rp");
-		   System.out.println(savingFile);
-		   
-		   FileInputStream fin = new FileInputStream(savingFile);
+			     
+		   FileInputStream fin = new FileInputStream(getPath());
 		   ObjectInputStream ois = new ObjectInputStream(fin);
 		   repo = (Repository) ois.readObject();
 		   ois.close();

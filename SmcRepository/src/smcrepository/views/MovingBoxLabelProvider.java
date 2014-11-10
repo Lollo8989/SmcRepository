@@ -28,22 +28,14 @@ public class MovingBoxLabelProvider extends LabelProvider {
 		url = getClass().getResource("/icons/movingBox.gif");
 		ir.put("MovingBox", ImageDescriptor.createFromURL(url));
 
-		// Book
-		//url = getClass().getResource("/icons/book.gif");
-		//ir.put("Book", ImageDescriptor.createFromURL(url));
-
-		// BoardGame
-		//url = getClass().getResource("/icons/gameboard.gif");
-		//ir.put("BoardGame", ImageDescriptor.createFromURL(url));
-
 		// Other
 		url = getClass().getResource("/icons/sample.gif");
 		ir.put("Other", ImageDescriptor.createFromURL(url));
-		
-		//********************************************************
+
 		//resources
 		url=getClass().getResource("/icons/sample.gif");
 		ir.put("Resources", ImageDescriptor.createFromURL(url));
+		//workspace
 		url=getClass().getResource("/icons/sample.gif");
 		ir.put("Workspaces", ImageDescriptor.createFromURL(url));
 		
@@ -54,19 +46,9 @@ public class MovingBoxLabelProvider extends LabelProvider {
         	
         	return ir.get("Workspaces");
         }
-        //********************************************************	
         else if (element instanceof MovingBox) {
 			return ir.get("MovingBox");
 		}
-
-		//else if (element instanceof Book) {
-			//return ir.get("Book");
-		//}
-
-		//else if (element instanceof BoardGame) {
-			//return ir.get("BoardGame");
-		//}
-
 		else {
 			return ir.get("Other");
 		}
@@ -83,11 +65,6 @@ public class MovingBoxLabelProvider extends LabelProvider {
 			} else {
 				return ((MovingBox) element).getName();
 			}
-		//} else if (element instanceof Book) {
-			//return ((Book) element).getTitle();
-		//} else if (element instanceof BoardGame) {
-			//return ((BoardGame) element).getTitle();
-			// ************************************************
 		} else if (element instanceof Resource) {
 			return (((Resource) element).getidR() + "-" + ((Resource) element)
 					.getNameR());
@@ -95,7 +72,7 @@ public class MovingBoxLabelProvider extends LabelProvider {
 			else if (element instanceof Workspace) {
 			return (((Workspace) element).getidW() + "-" + ((Workspace) element)
 					.getNameW());
-			// ***************************************************
+
 		} else
 			throw unknownElement(element);
 	}
