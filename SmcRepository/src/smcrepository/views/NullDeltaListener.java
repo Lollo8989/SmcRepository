@@ -1,6 +1,8 @@
 package smcrepository.views;
 
-public class NullDeltaListener implements IDeltaListener {
+import java.io.Serializable;
+
+public class NullDeltaListener implements IDeltaListener,Serializable {
 	protected static NullDeltaListener soleInstance = new NullDeltaListener();
 
 	public static NullDeltaListener getSoleInstance() {

@@ -2,9 +2,17 @@ package smcrepository.views;
 
 
 
+
+import java.io.File;
 import java.net.URL;
 import java.util.Iterator;
 import java.util.List;
+
+
+
+
+
+
 
 
 
@@ -21,13 +29,16 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.jface.viewers.ViewerSorter;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.part.ViewPart;
 
+import smcrepository.PasswordDialog;
 import smcrepository.Repository;
 
 public class User extends ViewPart {
@@ -99,10 +110,51 @@ public class User extends ViewPart {
 	
 		
 		//********************************************************
-		treeViewer.setInput(getInitalInput());
-		treeViewer.expandAll();
+		Shell shell=new Shell();
+		shell.setLayout(layout);
+		PasswordDialog dialog = new PasswordDialog(shell);
+		    
+		    // get the new values from the dialog
+		   /* if (dialog.open() == Window.OK) {
+		      String user = dialog.getUser();
+		      String pw = dialog.getPassword();
+		      System.out.println(user);
+		      System.out.println(pw);
+		      if(user.equals("paola") && pw.equals("123"))
+		      {*/
+		    	  //se il login è corretto vado a vedere se il file esiste già oppure se è danneggiato
+		    	  String USER_DIR_KEY = "user.dir";
+				   String currentDir = System.getProperty(USER_DIR_KEY); //Mi dice la directory attuale di lavoro
+				   String currentDir2 = currentDir.replace("\\", "\\\\");
+				   String savingFile = currentDir2.concat("\\\\repository_offline.rp");
+		    	   File file=new File(savingFile);
+		    	   if(!file.exists())
+		    	  {
+		    		   if (dialog.open() == Window.OK) {
+		    			      String user = dialog.getUser();
+		    			      String pw = dialog.getPassword();
+		    			      System.out.println(user);
+		    			      System.out.println(pw);
+		    			      if(user.equals("paola") && pw.equals("123"))
+		    			      {
+		    			    	  repository=new Repository();
+		    			    	  treeViewer.setInput(getInitalInput(repository));
+		    			    	  treeViewer.expandAll();
+		    			      }
+		    		   }
+		    			      
+		    	  }
+		    	   else {
+		    		   Repository addr2 = Serializer.estrazione();
+		    		   treeViewer.setInput(getInitalInput(addr2));
+		    		   treeViewer.expandAll();
+		    	   }
+		    	 
+		      }
+		    
+		//treeViewer.setInput(getInitalInput());
+		//treeViewer.expandAll();
 
-	}
 
 	// NUOVO
 	/*protected void createFiltersAndSorters() {
@@ -274,7 +326,7 @@ public class User extends ViewPart {
 
 	// FINE NUOVO
 
-	public MovingBox getInitalInput() {
+	public MovingBox getInitalInput(Repository rep) {
 		root = new MovingBox();
 		//MovingBox someBooks = new MovingBox("Books");
 		//MovingBox games = new MovingBox("Games");
@@ -305,26 +357,26 @@ public class User extends ViewPart {
 		/*ws.add(new Workspaces("Ws1",1));
 		ws.add(new Workspaces("Ws2",2));
 		*/
-		repository=new Repository();
+		//repository=new Repository();
 		
-		resources=repository.getResourcesList();
+		resources=rep.getResourcesList();
 		
-		workspaces = repository.getWorkspaceList();
+		workspaces = rep.getWorkspaceList();
 		
 		
 		  for(int i=0;i<resources.size();i++) {
 			  
-			if (resources.get(i).getTipologiaR()=="ASTS")
+			if (resources.get(i).getTipologiaR().equals("ASTS"))
 			{
 				asts.add(new Resource(resources.get(i).getidR(),resources.get(i).getNameR(),resources.get(i).getTipologiaR(),
 						resources.get(i).getContenutoR(),resources.get(i).getPubblicoR(),resources.get(i).getCommentsR()));
 			}
-			if (resources.get(i).getTipologiaR()=="AnCTL")
+			if (resources.get(i).getTipologiaR().equals("AnCTL"))
 			{
 				anctl.add(new Resource(resources.get(i).getidR(),resources.get(i).getNameR(),resources.get(i).getTipologiaR(),
 						resources.get(i).getContenutoR(),resources.get(i).getPubblicoR(),resources.get(i).getCommentsR()));
 			}
-			if (resources.get(i).getTipologiaR()=="Ontologia")
+			if (resources.get(i).getTipologiaR().equals("Ontologia"))
 			{
 				ontologie.add(new Resource(resources.get(i).getidR(),resources.get(i).getNameR(),resources.get(i).getTipologiaR(),
 						resources.get(i).getContenutoR(),resources.get(i).getPubblicoR(),resources.get(i).getCommentsR()));
@@ -361,6 +413,7 @@ public class User extends ViewPart {
 		games.add(new BoardGame("La Citta", "Gerd", "Fenchel"));
 		games.add(new BoardGame("El Grande", "Wolfgang", "Kramer"));
 		*/
+		Serializer.saveFile(rep); 
 		return root;
 	}
 

@@ -1,7 +1,9 @@
 package smcrepository;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
 
 
 
@@ -10,7 +12,7 @@ import smcrepository.views.Comment;
 import smcrepository.views.Resource;
 import smcrepository.views.Workspace;
 
-public class Repository {
+public class Repository implements Serializable {
 	
 	private List<Resource> resourcesList;
 	private List<Workspace> workspacesList;

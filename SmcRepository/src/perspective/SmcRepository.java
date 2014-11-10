@@ -17,10 +17,6 @@ public class SmcRepository implements IPerspectiveFactory {
 		IFolderLayout left =
                 layout.createFolder("left", IPageLayout.LEFT, (float) 0.26, editorArea);
         left.addView(VIEW_ID);
-       // left.addView(IPageLayout.ID_PROJECT_EXPLORER);
-        
 
-		
-		
 	}
 }

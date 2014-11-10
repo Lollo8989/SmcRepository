@@ -1,9 +1,10 @@
 package smcrepository.views;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Model {
+public abstract class Model implements Serializable {
 	protected MovingBox parent;
 	protected String name;
 	//resources

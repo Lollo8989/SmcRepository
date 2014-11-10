@@ -1,6 +1,8 @@
 package smcrepository.views;
 
-public class Comment {
+import java.io.Serializable;
+
+public class Comment implements Serializable {
 	private String data;
 	private String autore;
 	private String testo;

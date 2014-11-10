@@ -1,9 +1,10 @@
 package smcrepository.views;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Workspace extends Model{
+public class Workspace extends Model implements Serializable {
 	
 	/*private int id;
 	private String name;
