@@ -16,7 +16,9 @@ public class Repository implements Serializable {
 	
 	private List<Resource> resourcesList;
 	private List<Workspace> workspacesList;
-	private List<Comment> comments;
+	private List<Comment> comments1;
+	private List<Comment> comments2;
+	private List<Comment> comments3;
 	//private List<Resources> resources;
 	
 	
@@ -27,14 +29,17 @@ public class Repository implements Serializable {
 		//this.resourcesList.add(new Resources(3, "ris1", "ASTS", "ciao", "Si",null));
 		//this.resourcesList.add(new Resources(3, "ris2", "AnCTL", "booo", "No", null));
 		//this.resourcesList.add(new Resources(4,"ris1","AnCTL","mi piace","Si",null));
-		comments=new ArrayList();
+		comments1=new ArrayList();
+		comments2=new ArrayList();
+		comments3=new ArrayList();
 		resourcesList=new ArrayList();
-		comments.add(new Comment("21/10/14","Paola","non mi piace"));
-		comments.add(new Comment("21/10/14","Lollo","va bene"));
-		resourcesList.add(new Resource(1, "RisASTS", "ASTS", "risorsa asts", "Si",comments));
-		resourcesList.add(new Resource(2, "RisAnCTL", "AnCTL", "booo", "No", comments));
-		resourcesList.add(new Resource(3,"RisAnCTL","AnCTL","risorsa anctl","Si",comments));
-		resourcesList.add(new Resource(4,"Ontologia","Ontologia","ontologia","Si",comments));
+		comments1.add(new Comment("21/10/14","Paola","è una risorsa ASTS,con id=1"));
+		comments1.add(new Comment("21/10/14","Lollo","è una risorsa ASTS"));
+		comments2.add(new Comment("11/11/14","Lollo","è una risorsa AnCTL"));
+		resourcesList.add(new Resource(1, "RisASTS", "ASTS", "risorsa asts", "Si",comments1));
+		resourcesList.add(new Resource(2, "RisAnCTL", "AnCTL", "booo", "No", comments2));
+		resourcesList.add(new Resource(3,"RisAnCTL","AnCTL","risorsa anctl","Si",comments2));
+		resourcesList.add(new Resource(4,"Ontologia","Ontologia","ontologia","Si",comments3));
 		workspacesList=new ArrayList();
 		workspacesList.add(new Workspace(1,"WS1","workspace1","pubblico",resourcesList));
 		workspacesList.add(new Workspace(2,"WS2","workspace2","privato",resourcesList));

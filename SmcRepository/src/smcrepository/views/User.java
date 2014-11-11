@@ -65,24 +65,30 @@ public class User extends ViewPart {
 	protected List<Workspace> workspaces;
 
 	public void createPartControl(Composite parent) {
-		treeViewer = new TreeViewer(parent, SWT.MULTI | SWT.H_SCROLL
-				| SWT.V_SCROLL);
+		treeViewer = new TreeViewer(parent, SWT.MULTI| SWT.H_SCROLL |SWT.V_SCROLL);
+		
 
-		GridLayout layout = new GridLayout();
-		layout.numColumns = 1;
-		layout.verticalSpacing = 2;
-		layout.marginWidth = 0;
-		layout.marginHeight = 2;
-		parent.setLayout(layout);
+		//GridLayout layout = new GridLayout();
+		//layout.numColumns=1;
+		//layout.verticalSpacing = 0;
+		//layout.marginWidth = 0;
+		//layout.marginHeight = 0;
+	
+		//parent.setLayout(layout);
+	
 
 		//text = new Text(parent, SWT.READ_ONLY | SWT.SINGLE | SWT.BORDER);
-		GridData layoutData = new GridData();
-		layoutData.grabExcessHorizontalSpace = true;
-		layoutData.horizontalAlignment = GridData.FILL;
+		//GridData layoutData = new GridData();
+		//layoutData.horizontalSpan=0;
+		//layoutData.verticalSpan=0;
+		
+		//parent.setLayoutData(layoutData);
+		//layoutData.grabExcessHorizontalSpace = true;
+		//layoutData.horizontalAlignment = GridData.FILL;
 		//text.setLayoutData(layoutData);
 		//text.setText("Prova");
 
-		treeViewer = new TreeViewer(parent);
+		//treeViewer = new TreeViewer(parent);
 		//setta il gestore del contenuto
 		treeViewer.setContentProvider(new MovingBoxContentProvider()); 
 		
@@ -103,7 +109,7 @@ public class User extends ViewPart {
 		//hookListeners();
 	
 		Shell shell=new Shell();
-		shell.setLayout(layout);
+		//shell.setLayout(layout);
 		PasswordDialog dialog = new PasswordDialog(shell);
 		//se il login è corretto vado a vedere se il file esiste già oppure se è danneggiato
 					

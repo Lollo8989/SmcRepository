@@ -24,6 +24,7 @@ public class CallEditor extends AbstractHandler {
     IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindow(event);
     IWorkbenchPage page = window.getActivePage();
     User user= (User) page.findView(User.ID);
+  
     
     //View view = (View) page.findView(View.ID);
     // get the selection
@@ -36,7 +37,9 @@ public class CallEditor extends AbstractHandler {
         MyEditorInput input = new MyEditorInput(res.getidR(),res.getNameR(),res.getContenutoR(),res.getTipologiaR());
         try {
          
+       
           page.openEditor(input, MyEditor.ID);
+          
 
         } catch (PartInitException e) {
           throw new RuntimeException(e);
