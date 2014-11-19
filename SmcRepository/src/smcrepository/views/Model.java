@@ -11,6 +11,7 @@ public abstract class Model implements Serializable {
 	protected int idR;
 	protected String nameR,tipologiaR,contenutoR,pubblicoR;
 	protected List<Comment> commentiR;
+	protected int idWorkspace;
 	//workspaces
 	protected int idW;
 	protected String nameW,descrizioneW,tipologiaW;
@@ -53,7 +54,7 @@ public abstract class Model implements Serializable {
 
 	}
     //Resources
-	public Model(int idR, String nameR,String tipologiaR,String contenutoR,String pubblicoR, List<Comment> commentiR) {
+	public Model(int idR, String nameR,String tipologiaR,String contenutoR,String pubblicoR, List<Comment> commentiR,int idWorkspace) {
 		
 		this.nameR = nameR;
 		this.idR = idR;
@@ -62,6 +63,7 @@ public abstract class Model implements Serializable {
 		this.pubblicoR=pubblicoR;
 		this.commentiR=new ArrayList();
 		this.commentiR.addAll(commentiR);
+		this.idWorkspace=idWorkspace;
 	}
 	//Workspaces
 	public Model(int idW,String nameW,String descrizioneW,String tipologiaW,List<Resource> resourcesW)
@@ -85,6 +87,9 @@ public abstract class Model implements Serializable {
 	public String getTipologiaW(){
 		return tipologiaW;
 	}
+	public int getIdWorkspace(){
+		return idWorkspace;
+	}
 	public List<Resource> getResourcesW(){
 		return resourcesW;
 	}
@@ -97,7 +102,9 @@ public String getContenutoR() {
 		return contenutoR;
 	}
 
-
+public void setContenutoR(String contenuto){
+	this.contenutoR=contenuto;
+}
 
 	public String getPubblicoR() {
 		return pubblicoR;

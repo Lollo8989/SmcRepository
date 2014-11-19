@@ -3,13 +3,22 @@ package smcrepository;
 
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Layout;
+import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.EditorPart;
@@ -22,9 +31,14 @@ public class MyEditor extends EditorPart {
 	
 	 private MyEditorInput input;
 	 public static final String ID = "SmcRepository.editor1";
-	 //private Resource res;
+	 public Text text;
+	 public String contents;
+	 protected boolean dirty = false;
 	 
-	
+	 
+	public void savecontents(String text){
+		this.contents=text;
+	}
 	
 
 	public MyEditor() {
@@ -34,12 +48,23 @@ public class MyEditor extends EditorPart {
 	@Override
 	public void doSave(IProgressMonitor monitor) {
 		// TODO Auto-generated method stub
+		
+		setDirty(false);
+	
+			
+		new UpdateFile(this.input.getId(),this.input.getIdWorkspace(),contents);
+		
 
 	}
 
 	@Override
 	public void doSaveAs() {
 		// TODO Auto-generated method stub
+		
+		setDirty(false);
+		
+			
+		new UpdateFile(this.input.getId(),this.input.getIdWorkspace(),contents);
 
 	}
 
@@ -50,13 +75,14 @@ public class MyEditor extends EditorPart {
 			        throw new RuntimeException("Wrong input");
 			      }
 
-			      MyEditorInput new_name = (MyEditorInput) input;
 			      this.input = (MyEditorInput) input;
+			      
 			      setSite(site);
 			      setInput(this.input);
-			      //res = MovingBox.getResById(this.input.getId());
+			    //da il nome alle view
 			      setPartName(this.input.getNameR()+ "." + this.input.getTipologia().toLowerCase());
-			      //da il nome alle view
+			   
+			      
 		// TODO Auto-generated method stub
 
 	}
@@ -64,38 +90,56 @@ public class MyEditor extends EditorPart {
 	@Override
 	public boolean isDirty() {
 		// TODO Auto-generated method stub
-		return false;
+	
+		return dirty;
 	}
-
+	protected void setDirty(boolean value) {
+         dirty = value;
+         //System.out.println("setdirty"); 
+         firePropertyChange(PROP_DIRTY);
+      }
 	@Override
 	public boolean isSaveAsAllowed() {
 		// TODO Auto-generated method stub
+
 		return false;
 	}
-
+	
+	
 	@Override
 	public void createPartControl(Composite parent) {
 		// TODO Auto-generated method stub
-		//GridLayout layout = new GridLayout();
-		//parent.setLayout(layout);
+	
 		
-		Text text = new Text(parent, SWT.V_SCROLL|SWT.H_SCROLL);
-		//text.setSize(300, 400);
+		text = new Text(parent, SWT.V_SCROLL|SWT.H_SCROLL);
 		text.setEditable(true);
-		 //Label label1 = new Label(parent, SWT.NONE);
-		 //label1.setEnabled(enabled);.setText(this.input.getContenuto());
+
 		text.setText(this.input.getContenuto());
-		//TextEditor text=new TextEditor();
-		
+
+		savecontents(text.getText());
+	
+		ModifyListener listener=new ModifyListener() {
+			
+			@Override
+			public void modifyText(ModifyEvent e) {
+				// TODO Auto-generated method stub
+				setDirty(true);
+				savecontents(text.getText());			
+			}
+		};
+		text.addModifyListener(listener);
+	
 	}
 
 	@Override
 	public void setFocus() {
 		// TODO Auto-generated method stub
-
+	
+		
 	}
 	public void dispose(){
-		System.out.println("chiusura!!");
+		
+		
 		super.dispose();
 	}
 

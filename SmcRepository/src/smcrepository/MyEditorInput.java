@@ -10,12 +10,14 @@ public class MyEditorInput implements IEditorInput {
     private String name;
     private String contenuto;
     private String tipologia;
+    private int idWorkspace;
    
-    public MyEditorInput(int id,String name,String contenuto,String tipologia) {
+    public MyEditorInput(int id,String name,String contenuto,String tipologia,int idWorkspace) {
         this.id = id;
         this.name=name;
         this.contenuto=contenuto;
         this.tipologia=tipologia;
+        this.idWorkspace=idWorkspace;
     }
     public String getNameR()
     {
@@ -29,7 +31,9 @@ public class MyEditorInput implements IEditorInput {
     {
     	return tipologia;
     }
-    
+    public int getIdWorkspace() {
+        return idWorkspace;
+    }
     
     public int getId() {
         return id;
@@ -45,6 +49,7 @@ public class MyEditorInput implements IEditorInput {
         return null;
     }
 
+
     @Override
     public String getName() {
         return String.valueOf(id);
@@ -54,17 +59,17 @@ public class MyEditorInput implements IEditorInput {
     public IPersistableElement getPersistable() {
         return null;
     }
-
+    
     @Override
     public String getToolTipText() {
-        return "Displays a resources";
+        return "Displays resource";
     }
 
     @Override
     public Object getAdapter(Class adapter) {
         return null;
     }
-
+    
     @Override
     public int hashCode() {
         final int prime = 31;

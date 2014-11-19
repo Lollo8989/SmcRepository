@@ -21,9 +21,12 @@ import org.eclipse.ui.IViewSite;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.part.ViewPart;
 
+import smcrepository.CallEditor;
+
 public class CommentView extends ViewPart implements ISelectionListener {
-	private TableViewer tableViewer;
+	public static TableViewer tableViewer;
 	List<Comment> comments;
+	public static final String ID = "smcrepository.views.Commenti";
 	
 	private Label label;
 	//private CommentsDataColumn data;
@@ -61,6 +64,7 @@ public class CommentView extends ViewPart implements ISelectionListener {
                 else {
                 	tableViewer.setInput(null);
                 }
+                
              
         }
        

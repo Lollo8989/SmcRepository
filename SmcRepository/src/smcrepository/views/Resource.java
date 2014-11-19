@@ -8,9 +8,9 @@ public class Resource extends Model implements Serializable {
 
 
 	public Resource(int id, String name, String tipologia, String contenuto,
-			String pubblico, List<Comment> commenti) {
+			String pubblico, List<Comment> commenti,int idWorkspace) {
 		
-		super(id,name,tipologia,contenuto,pubblico,commenti);
+		super(id,name,tipologia,contenuto,pubblico,commenti,idWorkspace);
 	}
 
 	@Override

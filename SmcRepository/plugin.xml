@@ -96,4 +96,77 @@
              name="Open Editor">
        </command>
     </extension>
+    <extension point="org.eclipse.ui.commands">
+		<command name="remove" description="Remove resource"
+			id="smcrepository.ui.command.removeResources"/>
+		<command name="copy" description="Copy resources"
+			id="smcrepository.ui.command.copyResources"/>
+		<command name="paste" description="Paste resource"
+			id="smcrepository.ui.command.pasteResources"/>
+		<command name="cut" description="Cut resource"
+			id="smcrepository.ui.command.cutResources"/>
+			
+	</extension>
+	<extension point="org.eclipse.ui.handlers">
+		<handler class=
+			"smcrepository.RemoveResource"
+		commandId="smcrepository.ui.command.removeResources"/>
+		
+		<handler class=
+			"smcrepository.CopyResource"
+		commandId="smcrepository.ui.command.copyResources"/>
+		<handler class=
+			"smcrepository.PasteResource"
+		commandId="smcrepository.ui.command.pasteResources"/>
+		<handler class=
+			"smcrepository.CutResource"
+		commandId="smcrepository.ui.command.cutResources"/>
+	</extension>
+	<extension point="org.eclipse.ui.menus">
+		<menuContribution allPopups="false"
+			locationURI="popup:org.eclipse.ui.popup.any">
+			<command label="Remove" style="push"
+				commandId="smcrepository.ui.command.removeResources">
+				<visibleWhen checkEnabled="false">
+				<with variable="selection">
+					<iterate ifEmpty="false">
+						<adapt type="smcrepository.views.Resource"/>
+					</iterate>
+				</with>
+				</visibleWhen>
+			</command>
+			
+		
+			<command label="Copy" style="push"
+				commandId="smcrepository.ui.command.copyResources">
+				<visibleWhen checkEnabled="false">
+				<with variable="selection">
+					<iterate ifEmpty="false">
+						<adapt type="smcrepository.views.Resource"/>
+					</iterate>
+				</with>
+				</visibleWhen>
+			</command>
+			<command label="Paste" style="push"
+				commandId="smcrepository.ui.command.pasteResources">
+				<visibleWhen checkEnabled="false">
+				<with variable="selection">
+					<iterate ifEmpty="false">
+						<adapt type="smcrepository.views.Resource"/>
+					</iterate>
+				</with>
+				</visibleWhen>
+			</command>
+			<command label="Cut" style="push"
+				commandId="smcrepository.ui.command.cutResources">
+				<visibleWhen checkEnabled="false">
+				<with variable="selection">
+					<iterate ifEmpty="false">
+						<adapt type="smcrepository.views.Resource"/>
+					</iterate>
+				</with>
+				</visibleWhen>
+			</command>
+		</menuContribution>
+	</extension>
 </plugin>

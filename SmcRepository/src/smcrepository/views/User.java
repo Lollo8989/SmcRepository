@@ -13,6 +13,8 @@ import java.util.List;
 
 
 
+
+
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
@@ -27,6 +29,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ListViewer;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.jface.window.Window;
@@ -34,6 +37,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.handlers.IHandlerService;
@@ -45,9 +49,9 @@ import smcrepository.Repository;
 public class User extends ViewPart {
 
 	protected Text text;
-	protected TreeViewer treeViewer;
+	protected static TreeViewer treeViewer;
 	protected MovingBoxLabelProvider labelProvider;
-	protected MovingBox root;
+	protected static MovingBox root;
 	public static final String ID = "smcrepository.views.User";
 
 
@@ -61,34 +65,12 @@ public class User extends ViewPart {
 
 	// ********************************************
 	protected Repository repository;
-	protected List<Resource> resources;
-	protected List<Workspace> workspaces;
+	protected static List<Resource> resources;
+	protected static List<Workspace> workspaces;
 
 	public void createPartControl(Composite parent) {
 		treeViewer = new TreeViewer(parent, SWT.MULTI| SWT.H_SCROLL |SWT.V_SCROLL);
 		
-
-		//GridLayout layout = new GridLayout();
-		//layout.numColumns=1;
-		//layout.verticalSpacing = 0;
-		//layout.marginWidth = 0;
-		//layout.marginHeight = 0;
-	
-		//parent.setLayout(layout);
-	
-
-		//text = new Text(parent, SWT.READ_ONLY | SWT.SINGLE | SWT.BORDER);
-		//GridData layoutData = new GridData();
-		//layoutData.horizontalSpan=0;
-		//layoutData.verticalSpan=0;
-		
-		//parent.setLayoutData(layoutData);
-		//layoutData.grabExcessHorizontalSpace = true;
-		//layoutData.horizontalAlignment = GridData.FILL;
-		//text.setLayoutData(layoutData);
-		//text.setText("Prova");
-
-		//treeViewer = new TreeViewer(parent);
 		//setta il gestore del contenuto
 		treeViewer.setContentProvider(new MovingBoxContentProvider()); 
 		
@@ -101,6 +83,7 @@ public class User extends ViewPart {
 		
 		getSite().setSelectionProvider(treeViewer);
 		hookDoubleClickCommand();
+		hookContextMenu(treeViewer);
 		// Create menu, toolbars, filters, sorters.
 		//createFiltersAndSorters();
 		//createActions();
@@ -126,6 +109,7 @@ public class User extends ViewPart {
 		    			    	  repository=new Repository();
 		    			    	  treeViewer.setInput(getInitalInput(repository));
 		    			    	  treeViewer.expandAll();
+		    			    	  Serializer.saveFile(repository);
 		    			      }
 		    		   }
 		    			      
@@ -135,6 +119,7 @@ public class User extends ViewPart {
 		    		   treeViewer.setInput(getInitalInput(addr2));
 		    		   treeViewer.expandAll();
 		    	   }
+		
 		    	 
 		      }
 		    
@@ -188,8 +173,7 @@ public class User extends ViewPart {
 		if (treeViewer.getSelection().isEmpty()) {
 			return;
 		}
-		IStructuredSelection selection = (IStructuredSelection) treeViewer
-				.getSelection();
+		IStructuredSelection selection = (IStructuredSelection) treeViewer.getSelection();
 		/*
 		 * Tell the tree to not redraw until we finish removing all the selected
 		 * children.
@@ -302,7 +286,7 @@ public class User extends ViewPart {
 
 	// FINE NUOVO
 
-	public MovingBox getInitalInput(Repository rep) {
+	public static  MovingBox getInitalInput(Repository rep) {
 		root = new MovingBox();
 		MovingBox res = new MovingBox("Resources");
 		MovingBox ws=new MovingBox("Workspaces");
@@ -328,17 +312,17 @@ public class User extends ViewPart {
 			if (resources.get(i).getTipologiaR().equals("ASTS"))
 			{
 				asts.add(new Resource(resources.get(i).getidR(),resources.get(i).getNameR(),resources.get(i).getTipologiaR(),
-						resources.get(i).getContenutoR(),resources.get(i).getPubblicoR(),resources.get(i).getCommentsR()));
+						resources.get(i).getContenutoR(),resources.get(i).getPubblicoR(),resources.get(i).getCommentsR(),resources.get(i).getIdWorkspace()));
 			}
 			if (resources.get(i).getTipologiaR().equals("AnCTL"))
 			{
 				anctl.add(new Resource(resources.get(i).getidR(),resources.get(i).getNameR(),resources.get(i).getTipologiaR(),
-						resources.get(i).getContenutoR(),resources.get(i).getPubblicoR(),resources.get(i).getCommentsR()));
+						resources.get(i).getContenutoR(),resources.get(i).getPubblicoR(),resources.get(i).getCommentsR(),resources.get(i).getIdWorkspace()));
 			}
 			if (resources.get(i).getTipologiaR().equals("Ontologia"))
 			{
 				ontologie.add(new Resource(resources.get(i).getidR(),resources.get(i).getNameR(),resources.get(i).getTipologiaR(),
-						resources.get(i).getContenutoR(),resources.get(i).getPubblicoR(),resources.get(i).getCommentsR()));
+						resources.get(i).getContenutoR(),resources.get(i).getPubblicoR(),resources.get(i).getCommentsR(),resources.get(i).getIdWorkspace()));
 			} 
 		  }
 		  
@@ -352,13 +336,13 @@ public class User extends ViewPart {
 			  
 			  for(int j=0;j<resourcesList.size();j++)
 			  {
-				  workspace.add(new Resource(resourcesList.get(j).getidR(),resourcesList.get(j).getNameR(),resourcesList.get(i).getTipologiaR(),
-							resourcesList.get(j).getContenutoR(),resourcesList.get(j).getPubblicoR(),resourcesList.get(j).getCommentsR()));
+				  workspace.add(new Resource(resourcesList.get(j).getidR(),resourcesList.get(j).getNameR(),resourcesList.get(j).getTipologiaR(),
+							resourcesList.get(j).getContenutoR(),resourcesList.get(j).getPubblicoR(),resourcesList.get(j).getCommentsR(),resourcesList.get(j).getIdWorkspace()));
 			  }
 			  
 		  }
 		 
-		Serializer.saveFile(rep); 
+		//Serializer.saveFile(rep); 
 		return root;
 	}
 
@@ -425,7 +409,12 @@ public class User extends ViewPart {
 
 	// FINE NUOVO
 
-
+	public static void restartView(Repository rep)
+	{
+		treeViewer.setInput(getInitalInput(rep));
+		treeViewer.expandAll();
+		
+	}
 	 private void hookDoubleClickCommand() {
 		    treeViewer.addDoubleClickListener(new IDoubleClickListener() {
 		      public void doubleClick(DoubleClickEvent event) {
@@ -440,7 +429,12 @@ public class User extends ViewPart {
 		    });
 		  }
 	
-	
+	 private void hookContextMenu(Viewer viewer) {
+		 MenuManager manager = new MenuManager("#PopupMenu");
+		 Menu menu = manager.createContextMenu(viewer.getControl());
+		 viewer.getControl().setMenu(menu);
+		 getSite().registerContextMenu(manager, viewer);
+	}
 	
 	
 	

@@ -17,6 +17,7 @@ public class MovingBox extends Model {
 		resources = new ArrayList();
 		workspaces= new ArrayList();
 	}
+	
 	private static class Adder implements IModelVisitor {
 
 		public void visitResources(Resource resources, Object argument) {
