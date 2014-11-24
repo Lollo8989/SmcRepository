@@ -13,7 +13,7 @@ import org.eclipse.jface.resource.ResourceManager;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
 
-public class MovingBoxLabelProvider extends LabelProvider {
+public class BoxLabelProvider extends LabelProvider {
 	private Map imageCache = new HashMap(11);
 
 	/*
@@ -33,10 +33,10 @@ public class MovingBoxLabelProvider extends LabelProvider {
 		ir.put("Other", ImageDescriptor.createFromURL(url));
 
 		//resources
-		url=getClass().getResource("/icons/sample.gif");
+		url=getClass().getResource("/icons/resource.gif");
 		ir.put("Resources", ImageDescriptor.createFromURL(url));
 		//workspace
-		url=getClass().getResource("/icons/sample.gif");
+		url=getClass().getResource("/icons/ws.gif");
 		ir.put("Workspaces", ImageDescriptor.createFromURL(url));
 		
         if (element instanceof Resource) {
@@ -46,7 +46,7 @@ public class MovingBoxLabelProvider extends LabelProvider {
         	
         	return ir.get("Workspaces");
         }
-        else if (element instanceof MovingBox) {
+        else if (element instanceof Box) {
 			return ir.get("MovingBox");
 		}
 		else {
@@ -59,19 +59,18 @@ public class MovingBoxLabelProvider extends LabelProvider {
 	 * @see ILabelProvider#getText(Object)
 	 */
 	public String getText(Object element) {
-		if (element instanceof MovingBox) {
-			if (((MovingBox) element).getName() == null) {
+		if (element instanceof Box) {
+			if (((Box) element).getName() == null) {
 				return "Box";
 			} else {
-				return ((MovingBox) element).getName();
+				return ((Box) element).getName();
 			}
 		} else if (element instanceof Resource) {
 			return (((Resource) element).getidR() + "-" + ((Resource) element)
 					.getNameR());
 		}
 			else if (element instanceof Workspace) {
-			return (((Workspace) element).getidW() + "-" + ((Workspace) element)
-					.getNameW());
+			return (((Workspace) element).getNameW());
 
 		} else
 			throw unknownElement(element);

@@ -99,19 +99,25 @@
     <extension point="org.eclipse.ui.commands">
 		<command name="remove" description="Remove resource"
 			id="smcrepository.ui.command.removeResources"/>
+		<command name="remove" description="Remove workspace"
+			id="smcrepository.ui.command.removeWorkspace"/>
 		<command name="copy" description="Copy resources"
 			id="smcrepository.ui.command.copyResources"/>
 		<command name="paste" description="Paste resource"
 			id="smcrepository.ui.command.pasteResources"/>
-		<command name="cut" description="Cut resource"
-			id="smcrepository.ui.command.cutResources"/>
+		<command name="renamer" description="Rename resource"
+			id="smcrepository.ui.command.renameResources"/>
+		<command name="renamew" description="Rename workspace"
+			id="smcrepository.ui.command.renameWorkspace"/>
 			
 	</extension>
 	<extension point="org.eclipse.ui.handlers">
 		<handler class=
-			"smcrepository.RemoveResource"
+			"smcrepository.Remove"
 		commandId="smcrepository.ui.command.removeResources"/>
-		
+		<handler class=
+			"smcrepository.Remove"
+		commandId="smcrepository.ui.command.removeWorkspace"/>
 		<handler class=
 			"smcrepository.CopyResource"
 		commandId="smcrepository.ui.command.copyResources"/>
@@ -119,18 +125,31 @@
 			"smcrepository.PasteResource"
 		commandId="smcrepository.ui.command.pasteResources"/>
 		<handler class=
-			"smcrepository.CutResource"
-		commandId="smcrepository.ui.command.cutResources"/>
+			"smcrepository.Rename"
+		commandId="smcrepository.ui.command.renameResources"/>
+		<handler class=
+			"smcrepository.Rename"
+		commandId="smcrepository.ui.command.renameWorkspace"/>
 	</extension>
 	<extension point="org.eclipse.ui.menus">
 		<menuContribution allPopups="false"
 			locationURI="popup:org.eclipse.ui.popup.any">
-			<command label="Remove" style="push"
+			<command label="RemoveResource" style="push"
 				commandId="smcrepository.ui.command.removeResources">
 				<visibleWhen checkEnabled="false">
 				<with variable="selection">
 					<iterate ifEmpty="false">
 						<adapt type="smcrepository.views.Resource"/>
+					</iterate>
+				</with>
+				</visibleWhen>
+			</command>
+			<command label="RemoveWorkspace" style="push"
+				commandId="smcrepository.ui.command.removeWorkspace">
+				<visibleWhen checkEnabled="false">
+				<with variable="selection">
+					<iterate ifEmpty="false">
+						<adapt type="smcrepository.views.Workspace"/>
 					</iterate>
 				</with>
 				</visibleWhen>
@@ -157,12 +176,22 @@
 				</with>
 				</visibleWhen>
 			</command>
-			<command label="Cut" style="push"
-				commandId="smcrepository.ui.command.cutResources">
+			<command label="RenameResource" style="push"
+				commandId="smcrepository.ui.command.renameResources">
 				<visibleWhen checkEnabled="false">
 				<with variable="selection">
 					<iterate ifEmpty="false">
 						<adapt type="smcrepository.views.Resource"/>
+					</iterate>
+				</with>
+				</visibleWhen>
+			</command>
+			<command label="RenameWorkspace" style="push"
+				commandId="smcrepository.ui.command.renameWorkspace">
+				<visibleWhen checkEnabled="false">
+				<with variable="selection">
+					<iterate ifEmpty="false">
+						<adapt type="smcrepository.views.Workspace"/>
 					</iterate>
 				</with>
 				</visibleWhen>

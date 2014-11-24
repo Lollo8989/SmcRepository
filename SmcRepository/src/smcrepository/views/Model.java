@@ -5,33 +5,39 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Model implements Serializable {
-	protected MovingBox parent;
-	protected String name;
+	public Box parent;
+	public String name;
 	//resources
-	protected int idR;
-	protected String nameR,tipologiaR,contenutoR,pubblicoR;
-	protected List<Comment> commentiR;
-	protected int idWorkspace;
+	public int idR;
+	public String nameR,tipologiaR,contenutoR,pubblicoR;
+	public List<Comment> commentiR;
+	public int idWorkspace;
 	//workspaces
-	protected int idW;
-	protected String nameW,descrizioneW,tipologiaW;
-	protected  List<Resource> resourcesW;
+	public int idW;
+	public String nameW,descrizioneW,tipologiaW;
+	public  List<Resource> resourcesW;
 
-	protected IDeltaListener listener = NullDeltaListener.getSoleInstance();
+	public IDeltaListener listener = NullDeltaListener.getSoleInstance();
 
-	protected void fireAdd(Object added) {
+	public void fireAdd(Object added) {
 		listener.add(new DeltaEvent(added));
 	}
 
-	protected void fireRemove(Object removed) {
+	public void fireRemove(Object removed) {
 		listener.remove(new DeltaEvent(removed));
 	}
 
 	public void setName(String name) {
 		this.name = name;
 	}
+	public void setNameR(String nameR) {
+		this.nameR = nameR;
+	}
+	public void setNameW(String nameW) {
+		this.nameW = nameW;
+	}
 
-	public MovingBox getParent() {
+	public Box getParent() {
 		return parent;
 	}
 

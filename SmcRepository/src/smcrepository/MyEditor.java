@@ -24,7 +24,7 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.EditorPart;
 
 import smcrepository.views.Model;
-import smcrepository.views.MovingBox;
+import smcrepository.views.Box;
 import smcrepository.views.Resource;
 
 public class MyEditor extends EditorPart {

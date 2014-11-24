@@ -3,7 +3,7 @@ package smcrepository.views;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MovingBox extends Model {
+public class Box extends Model {
 	protected List boxes;
 
 	protected List resources;
@@ -12,7 +12,7 @@ public class MovingBox extends Model {
 	private static IModelVisitor adder = new Adder();
 	private static IModelVisitor remover = new Remover();
 
-	public MovingBox() {
+	public Box() {
 		boxes = new ArrayList();
 		resources = new ArrayList();
 		workspaces= new ArrayList();
@@ -21,15 +21,15 @@ public class MovingBox extends Model {
 	private static class Adder implements IModelVisitor {
 
 		public void visitResources(Resource resources, Object argument) {
-			((MovingBox) argument).addResources(resources);
+			((Box) argument).addResources(resources);
 		}
 		
 		public void visitWorkspaces(Workspace workspaces, Object argument) {
-			((MovingBox) argument).addWorkspaces(workspaces);
+			((Box) argument).addWorkspaces(workspaces);
 		}
 
-		public void visitMovingBox(MovingBox box, Object argument) {
-			((MovingBox) argument).addBox(box);
+		public void visitMovingBox(Box box, Object argument) {
+			((Box) argument).addBox(box);
 		}
 
 	}
@@ -38,21 +38,21 @@ public class MovingBox extends Model {
 
 		// ************************************************************
 		public void visitResources(Resource resources, Object argument) {
-			((MovingBox) argument).removeResources(resources);
+			((Box) argument).removeResources(resources);
 		}
 		
 		public void visitWorkspaces(Workspace workspaces, Object argument) {
-			((MovingBox) argument).removeWorkspaces(workspaces);
+			((Box) argument).removeWorkspaces(workspaces);
 		}
 		
-		public void visitMovingBox(MovingBox box, Object argument) {
-			((MovingBox) argument).removeBox(box);
+		public void visitMovingBox(Box box, Object argument) {
+			((Box) argument).removeBox(box);
 			box.addListener(NullDeltaListener.getSoleInstance());
 		}
 
 	}
 
-	public MovingBox(String name) {
+	public Box(String name) {
 		this();
 		this.name = name;
 	}
@@ -61,7 +61,7 @@ public class MovingBox extends Model {
 		return boxes;
 	}
 
-	protected void addBox(MovingBox box) {
+	protected void addBox(Box box) {
 		boxes.add(box);
 		box.parent = this;
 		fireAdd(box);
@@ -96,7 +96,7 @@ public class MovingBox extends Model {
 		fireRemove(workspace);
 	}
 
-	protected void removeBox(MovingBox box) {
+	protected void removeBox(Box box) {
 		boxes.remove(box);
 		box.addListener(NullDeltaListener.getSoleInstance());
 		fireRemove(box);

@@ -5,8 +5,13 @@ package smcrepository.views;
 
 import java.io.File;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+
+
+
 
 
 
@@ -43,6 +48,8 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.part.ViewPart;
 
+import smcrepository.NewResourceDialog;
+import smcrepository.NewWorkspaceDialog;
 import smcrepository.PasswordDialog;
 import smcrepository.Repository;
 
@@ -50,17 +57,20 @@ public class User extends ViewPart {
 
 	protected Text text;
 	protected static TreeViewer treeViewer;
-	protected MovingBoxLabelProvider labelProvider;
-	protected static MovingBox root;
+	protected BoxLabelProvider labelProvider;
+	protected static Box root;
 	public static final String ID = "smcrepository.views.User";
-
+	public URL url,url2;
+	protected String nameR,contenutoR,tipologiaR,pubblicoR;
+	protected String nameW,descrizioneW,tipologiaW;
+	protected int wsId;
 
 	// NUOVO
 	//protected ViewerFilter onlyBoardGamesFilter, atLeastThreeFilter;
 	//protected ViewerSorter booksBoxesGamesSorter, noArticleSorter;
 	//protected Action onlyBoardGamesAction, atLeatThreeItems;
 	//protected Action booksBoxesGamesAction, noArticleAction;
-	//protected Action addBookAction, removeAction;
+	protected Action addResourceAction,addWorkspaceAction;
 	// FINE NUOVO
 
 	// ********************************************
@@ -72,10 +82,10 @@ public class User extends ViewPart {
 		treeViewer = new TreeViewer(parent, SWT.MULTI| SWT.H_SCROLL |SWT.V_SCROLL);
 		
 		//setta il gestore del contenuto
-		treeViewer.setContentProvider(new MovingBoxContentProvider()); 
+		treeViewer.setContentProvider(new BoxContentProvider()); 
 		
 														
-		labelProvider = new MovingBoxLabelProvider();
+		labelProvider = new BoxLabelProvider();
 		treeViewer.setLabelProvider(labelProvider);
 		treeViewer.setUseHashlookup(true);
 		//comment=new Comment();
@@ -86,9 +96,9 @@ public class User extends ViewPart {
 		hookContextMenu(treeViewer);
 		// Create menu, toolbars, filters, sorters.
 		//createFiltersAndSorters();
-		//createActions();
+		createActions();
 		//createMenus();
-		//createToolbar();
+		createToolbar();
 		//hookListeners();
 	
 		Shell shell=new Shell();
@@ -169,7 +179,7 @@ public class User extends ViewPart {
 
 	}
 */
-	protected void removeSelected() {
+/*	protected void removeSelected() {
 		if (treeViewer.getSelection().isEmpty()) {
 			return;
 		}
@@ -178,66 +188,154 @@ public class User extends ViewPart {
 		 * Tell the tree to not redraw until we finish removing all the selected
 		 * children.
 		 */
-		treeViewer.getTree().setRedraw(false);
+	/*	treeViewer.getTree().setRedraw(false);
 		for (Iterator iterator = selection.iterator(); iterator.hasNext();) {
 			Model model = (Model) iterator.next();
-			MovingBox parent = model.getParent();
+			Box parent = model.getParent();
 			parent.remove(model);
 		}
 		treeViewer.getTree().setRedraw(true);
 	}
+*/
+	protected void addNewWorkspace(){
+		
+		Shell shell=new Shell();
 
-	/*protected void addNewBook() {
-		MovingBox receivingBox;
-		if (treeViewer.getSelection().isEmpty()) {
+		NewWorkspaceDialog dialog = new NewWorkspaceDialog(shell);
+		
+		if (dialog.open() == Window.OK) {
+			
+			nameW=dialog.getName();
+			descrizioneW=dialog.getDescrizione();
+			tipologiaW=dialog.getTipologia();
+			List<Resource> resources=new ArrayList();
+
+			Repository rep = Serializer.estrazione();
+			
+			int max=0;
+			for(int i=0;i<rep.getWorkspaceList().size();i++){
+				if(rep.getWorkspaceList().get(i).getidW()>max)
+						max=rep.getWorkspaceList().get(i).getidW();	
+				
+			}
+			rep.getWorkspaceList().add(new Workspace(max+1,nameW,descrizioneW,tipologiaW,resources));
+			
+			Serializer.saveFile(rep);
+			User.restartView(rep);
+		}
+	}
+	
+	
+	
+	protected void addNewResource() {
+		//Box receivingBox=root;
+		
+		Shell shell=new Shell();
+
+		NewResourceDialog dialog = new NewResourceDialog(shell);
+		
+		if (dialog.open() == Window.OK) {
+			
+			nameR=dialog.getName();
+			contenutoR=dialog.getContenuto();
+			tipologiaR=dialog.getTipologia();
+			pubblicoR=dialog.getPubblico();
+			wsId=dialog.getIDWorkspace();
+			List<Comment> comments=new ArrayList();
+			
+			Repository rep = Serializer.estrazione();
+			
+			int max=0;
+			for(int i=0;i<rep.getResourcesList().size();i++)
+			{
+				if(rep.getResourcesList().get(i).getidR()>max)
+					max=rep.getResourcesList().get(i).getidR();
+			}
+			for(int i=0;i<rep.getWorkspaceList().size();i++){
+				for(int j=0;j<rep.getWorkspaceList().get(i).getResourcesW().size();j++){
+					if(rep.getWorkspaceList().get(i).getResourcesW().get(j).getidR()>max)
+						max=rep.getWorkspaceList().get(i).getResourcesW().get(j).getidR();
+				}
+			}
+			
+			if (wsId==0){
+				rep.getResourcesList().add(new Resource(max+1,nameR,tipologiaR,contenutoR,pubblicoR,comments,wsId));
+			}
+			else {
+				for(int i=0;i<rep.getWorkspaceList().size();i++){
+					if (rep.getWorkspaceList().get(i).getidW()==wsId){
+						rep.getWorkspaceList().get(i).getResourcesW().add(new Resource(max+1,nameR,tipologiaR,contenutoR,pubblicoR,comments,wsId));
+					}
+				}
+			}
+			
+			Serializer.saveFile(rep);
+			User.restartView(rep);
+			//treeViewer.setInput(getInitalInput(rep));
+ 		    //treeViewer.expandAll();
+ 		   //Serializer.saveFile(repository);
+			
+		}
+	}
+		
+		/*if (treeViewer.getSelection().isEmpty()) {
 			receivingBox = root;
 		} else {
 			IStructuredSelection selection = (IStructuredSelection) treeViewer
 					.getSelection();
 			Model selectedDomainObject = (Model) selection.getFirstElement();
-			if (!(selectedDomainObject instanceof MovingBox)) {
+			if (!(selectedDomainObject instanceof Box)) {
 				receivingBox = selectedDomainObject.getParent();
 			} else {
-				receivingBox = (MovingBox) selectedDomainObject;
+				receivingBox = (Box) selectedDomainObject;
 			}
 		}
+		
 		receivingBox.add(Book.newBook());
 	}*/
-/*
+
 	protected void createActions() {
-		onlyBoardGamesAction = new Action("Only Board Games") {
+		//onlyBoardGamesAction = new Action("Only Board Games") {
+			//public void run() {
+				//updateFilter(onlyBoardGamesAction);
+			//}
+		//};
+		//onlyBoardGamesAction.setChecked(false);
+
+		//atLeatThreeItems = new Action("Boxes With At Least Three Items") {
+			//public void run() {
+				//updateFilter(atLeatThreeItems);
+			//}
+		//};
+		//atLeatThreeItems.setChecked(false);
+
+		//booksBoxesGamesAction = new Action("Books, Boxes, Games") {
+			//public void run() {
+				//updateSorter(booksBoxesGamesAction);
+			//}
+		//};
+		//booksBoxesGamesAction.setChecked(false);
+
+		//noArticleAction = new Action("Ignoring Articles") {
+			//public void run() {
+				//updateSorter(noArticleAction);
+		//	}
+		//};
+		//noArticleAction.setChecked(false);
+		
+		
+		
+		addResourceAction = new Action("Add Resource") {
 			public void run() {
-				updateFilter(onlyBoardGamesAction);
+				addNewResource();
 			}
 		};
-		onlyBoardGamesAction.setChecked(false);
-
-		atLeatThreeItems = new Action("Boxes With At Least Three Items") {
+		
+		addWorkspaceAction = new Action("Add Workspace") {
 			public void run() {
-				updateFilter(atLeatThreeItems);
+				addNewWorkspace();
 			}
 		};
-		atLeatThreeItems.setChecked(false);
-
-		booksBoxesGamesAction = new Action("Books, Boxes, Games") {
-			public void run() {
-				updateSorter(booksBoxesGamesAction);
-			}
-		};
-		booksBoxesGamesAction.setChecked(false);
-
-		noArticleAction = new Action("Ignoring Articles") {
-			public void run() {
-				updateSorter(noArticleAction);
-			}
-		};
-		noArticleAction.setChecked(false);
-
-		addBookAction = new Action("Add Book") {
-			public void run() {
-				addNewBook();
-			}
-		};*/
 
 
 	
@@ -246,19 +344,22 @@ public class User extends ViewPart {
 		//addBookAction.setImageDescriptor(TreeViewerPlugin.getImageDescriptor("newBook.gif"));
 		
 		
+	/*	
+		url2 = getClass().getResource("/icons/newBook.gif");
+		addResourceAction.setToolTipText("Add a New Workspace");
 
+		addResourceAction.setImageDescriptor(ImageDescriptor.createFromURL(url2));
 		
 		
 		
-		
 
+		url = getClass().getResource("/icons/addres.gif");
+		addResourceAction.setToolTipText("Add a New Resource");
 
-		//addBookAction.setToolTipText("Add a New Book");
-
-		//addBookAction.setImageDescriptor(ImageDescriptor.createFromURL(url));
-
+		addResourceAction.setImageDescriptor(ImageDescriptor.createFromURL(url));
+*/
 	
-	
+	}
 		
 			
 		
@@ -286,13 +387,13 @@ public class User extends ViewPart {
 
 	// FINE NUOVO
 
-	public static  MovingBox getInitalInput(Repository rep) {
-		root = new MovingBox();
-		MovingBox res = new MovingBox("Resources");
-		MovingBox ws=new MovingBox("Workspaces");
-		MovingBox asts = new MovingBox("ASTS");
-		MovingBox anctl = new MovingBox("AnCTL");
-		MovingBox ontologie = new MovingBox("Ontologie");
+	public static  Box getInitalInput(Repository rep) {
+		root = new Box();
+		Box res = new Box("Resources");
+		Box ws=new Box("Workspaces");
+		Box asts = new Box("ASTS");
+		Box anctl = new Box("AnCTL");
+		Box ontologie = new Box("Ontologie");
 
 		root.add(res);
 		root.add(ws);
@@ -328,7 +429,11 @@ public class User extends ViewPart {
 		  
 		  for (int i=0;i<workspaces.size();i++) {
 			  
-			  MovingBox workspace=new MovingBox(workspaces.get(i).getidW() + "-" + workspaces.get(i).getNameW());
+			 // Workspace workspace= new Workspace(workspaces.get(i).getidW(),workspaces.get(i).getNameW(),workspaces.get(i).getDescrizioneW(),workspaces.get(i).getTipologiaW(),workspaces.get(i).getResourcesW());
+			  Box workspace=new Box("WS"+workspaces.get(i).getidW());  
+			  //Box workspace=new Box(workspaces.get(i).getidW());
+			  
+			  workspace.add(new Workspace(workspaces.get(i).getidW(),workspaces.get(i).getNameW(),workspaces.get(i).getDescrizioneW(),workspaces.get(i).getTipologiaW(),workspaces.get(i).getResourcesW()));
 			  ws.add(workspace);
 			  
 			  List<Resource> resourcesList=null;
@@ -370,14 +475,16 @@ public class User extends ViewPart {
 		});
 		fillMenu(rootMenuManager);
 	}
+	*/
 
 	protected void createToolbar() {
 		IToolBarManager toolbarManager = getViewSite().getActionBars()
 				.getToolBarManager();
-		toolbarManager.add(addBookAction);
-		toolbarManager.add(removeAction);
+		toolbarManager.add(addResourceAction);
+		toolbarManager.add(addWorkspaceAction);
+		//toolbarManager.add(removeAction);
 	}
-
+/*
 	protected void hookListeners() {
 		treeViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			public void selectionChanged(SelectionChangedEvent event) {

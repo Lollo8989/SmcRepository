@@ -63,7 +63,7 @@ public class PasswordDialog extends Dialog {
 
   @Override
   protected Point getInitialSize() {
-    return new Point(350, 200);
+    return new Point(300, 150);
   }
 
   @Override
@@ -91,5 +91,10 @@ public class PasswordDialog extends Dialog {
   public void setPassword(String password) {
     this.password = password;
   }
+  
+  protected void configureShell(Shell newShell) {
+	    super.configureShell(newShell);
+	    newShell.setText("Login");
+	  }
 
 } 

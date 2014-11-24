@@ -47,8 +47,8 @@ public class Repository implements Serializable {
 		resourcesList2.add(new Resource(6,"RisOntologia","Ontologia","risorsa di tipo ontologia","Si",comments3,1));
 		resourcesList3.add(new Resource(7,"RisANCTL","AnCTL","risorsa di tipo non saprei","Si",comments3,2));
 		workspacesList=new ArrayList();
-		workspacesList.add(new Workspace(1,"WS1","workspace1","pubblico",resourcesList2));
-		workspacesList.add(new Workspace(2,"WS2","workspace2","privato",resourcesList3));
+		workspacesList.add(new Workspace(1,"Workspace1","workspace1","pubblico",resourcesList2));
+		workspacesList.add(new Workspace(2,"Workspace2","workspace2","privato",resourcesList3));
 	}
 	
 	public Repository(List<Resource> resourcesList) {

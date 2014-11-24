@@ -14,12 +14,6 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.handlers.HandlerUtil;
 
-
-
-
-
-
-
 import smcrepository.views.CommentView;
 import smcrepository.views.Model;
 //import de.vogella.rcp.editor.example.View;

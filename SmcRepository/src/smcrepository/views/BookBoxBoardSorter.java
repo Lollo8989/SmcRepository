@@ -14,7 +14,7 @@ public class BookBoxBoardSorter extends ViewerSorter {
 	public int category(Object element) {
 		//if (element instanceof Book)
 			//return 1;
-		if (element instanceof MovingBox)
+		if (element instanceof Box)
 			return 1;
 		// ***********************************************
 		if (element instanceof Resource)

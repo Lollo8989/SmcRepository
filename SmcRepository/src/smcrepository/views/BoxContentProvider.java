@@ -6,7 +6,7 @@ import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 
-public class MovingBoxContentProvider implements ITreeContentProvider,
+public class BoxContentProvider implements ITreeContentProvider,
 		IDeltaListener {
 
 	private static Object[] EMPTY_ARRAY = new Object[0];
@@ -18,33 +18,33 @@ public class MovingBoxContentProvider implements ITreeContentProvider,
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		this.viewer = (TreeViewer) viewer;
 		if (oldInput != null) {
-			removeListenerFrom((MovingBox) oldInput);
+			removeListenerFrom((Box) oldInput);
 		}
 		if (newInput != null) {
-			addListenerTo((MovingBox) newInput);
+			addListenerTo((Box) newInput);
 		}
 	}
 
-	protected void removeListenerFrom(MovingBox box) {
+	protected void removeListenerFrom(Box box) {
 		box.removeListener(this);
 		for (Iterator iterator = box.getBoxes().iterator(); iterator.hasNext();) {
-			MovingBox aBox = (MovingBox) iterator.next();
+			Box aBox = (Box) iterator.next();
 			removeListenerFrom(aBox);
 		}
 	}
 
-	protected void addListenerTo(MovingBox box) {
+	protected void addListenerTo(Box box) {
 		box.addListener(this);
 		for (Iterator iterator = box.getBoxes().iterator(); iterator.hasNext();) {
-			MovingBox aBox = (MovingBox) iterator.next();
+			Box aBox = (Box) iterator.next();
 			addListenerTo(aBox);
 		}
 	}
     //*******************************************************
 	public Object[] getChildren(Object parentElement) {
-		if (parentElement instanceof MovingBox) {
-			MovingBox box = (MovingBox) parentElement;
-			return concat(box.getBoxes().toArray(),box.getResources().toArray(),box.getWorkspaces().toArray());
+		if (parentElement instanceof Box) {
+			Box box = (Box) parentElement;
+			return concat(box.getBoxes().toArray(),box.getWorkspaces().toArray(),box.getResources().toArray());
 			
 		}
 		return EMPTY_ARRAY;
