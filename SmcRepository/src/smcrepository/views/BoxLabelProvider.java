@@ -70,7 +70,7 @@ public class BoxLabelProvider extends LabelProvider {
 					.getNameR());
 		}
 			else if (element instanceof Workspace) {
-			return (((Workspace) element).getNameW());
+			return (((Workspace) element).getNamework());
 
 		} else
 			throw unknownElement(element);

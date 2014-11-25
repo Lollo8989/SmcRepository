@@ -4,13 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Box extends Model {
+	
 	protected List boxes;
-
 	protected List resources;
 	protected List workspaces;
 
-	private static IModelVisitor adder = new Adder();
-	private static IModelVisitor remover = new Remover();
 
 	public Box() {
 		boxes = new ArrayList();
@@ -18,39 +16,7 @@ public class Box extends Model {
 		workspaces= new ArrayList();
 	}
 	
-	private static class Adder implements IModelVisitor {
 
-		public void visitResources(Resource resources, Object argument) {
-			((Box) argument).addResources(resources);
-		}
-		
-		public void visitWorkspaces(Workspace workspaces, Object argument) {
-			((Box) argument).addWorkspaces(workspaces);
-		}
-
-		public void visitMovingBox(Box box, Object argument) {
-			((Box) argument).addBox(box);
-		}
-
-	}
-
-	private static class Remover implements IModelVisitor {
-
-		// ************************************************************
-		public void visitResources(Resource resources, Object argument) {
-			((Box) argument).removeResources(resources);
-		}
-		
-		public void visitWorkspaces(Workspace workspaces, Object argument) {
-			((Box) argument).removeWorkspaces(workspaces);
-		}
-		
-		public void visitMovingBox(Box box, Object argument) {
-			((Box) argument).removeBox(box);
-			box.addListener(NullDeltaListener.getSoleInstance());
-		}
-
-	}
 
 	public Box(String name) {
 		this();
@@ -69,10 +35,10 @@ public class Box extends Model {
 
 
 
-	protected void addResources(Resource resource) {
-		resources.add(resource);
-		resource.parent = this;
-		fireAdd(resource);
+	protected void addResources(Resource toAdd) {
+		resources.add(toAdd);
+		toAdd.parent = this;
+		fireAdd(toAdd);
 	}
 	protected void addWorkspaces(Workspace workspace) {
 		workspaces.add(workspace);
@@ -80,30 +46,15 @@ public class Box extends Model {
 		fireAdd(workspace);
 	}
 
-	public void remove(Model toRemove) {
-		toRemove.accept(remover, this);
-	}
-
-	// ***********************************************
-	protected void removeResources(Resource resource) {
-		resources.remove(resource);
-		resource.addListener(NullDeltaListener.getSoleInstance());
-		fireRemove(resource);
-	}
-	protected void removeWorkspaces(Workspace workspace) {
-		workspaces.remove(workspace);
-		workspace.addListener(NullDeltaListener.getSoleInstance());
-		fireRemove(workspace);
-	}
-
-	protected void removeBox(Box box) {
-		boxes.remove(box);
-		box.addListener(NullDeltaListener.getSoleInstance());
-		fireRemove(box);
-	}
 
 	public void add(Model toAdd) {
-		toAdd.accept(adder, this);
+		if (toAdd instanceof Resource)
+			addResources((Resource) toAdd);
+		else if (toAdd instanceof Workspace)
+			addWorkspaces((Workspace) toAdd);
+			else if (toAdd instanceof Box)
+				addBox((Box) toAdd);
+	
 	}
 
 	
@@ -122,11 +73,5 @@ public class Box extends Model {
 				//getBooks().size() + getBoxes().size() + getGames().size()+getResources().size()+getWorkspaces().size();
 	}
 
-	/*
-	 * @see Model#accept(ModelVisitorI, Object)
-	 */
-	public void accept(IModelVisitor visitor, Object passAlongArgument) {
-		visitor.visitMovingBox(this, passAlongArgument);
-	}
 
 }

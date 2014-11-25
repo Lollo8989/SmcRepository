@@ -134,7 +134,7 @@
 	<extension point="org.eclipse.ui.menus">
 		<menuContribution allPopups="false"
 			locationURI="popup:org.eclipse.ui.popup.any">
-			<command label="RemoveResource" style="push"
+			<command label="Remove resource" style="push"
 				commandId="smcrepository.ui.command.removeResources">
 				<visibleWhen checkEnabled="false">
 				<with variable="selection">
@@ -144,7 +144,7 @@
 				</with>
 				</visibleWhen>
 			</command>
-			<command label="RemoveWorkspace" style="push"
+			<command label="Remove workspace" style="push"
 				commandId="smcrepository.ui.command.removeWorkspace">
 				<visibleWhen checkEnabled="false">
 				<with variable="selection">
@@ -176,7 +176,7 @@
 				</with>
 				</visibleWhen>
 			</command>
-			<command label="RenameResource" style="push"
+			<command label="Rename resource" style="push"
 				commandId="smcrepository.ui.command.renameResources">
 				<visibleWhen checkEnabled="false">
 				<with variable="selection">
@@ -186,7 +186,7 @@
 				</with>
 				</visibleWhen>
 			</command>
-			<command label="RenameWorkspace" style="push"
+			<command label="Rename workspace" style="push"
 				commandId="smcrepository.ui.command.renameWorkspace">
 				<visibleWhen checkEnabled="false">
 				<with variable="selection">

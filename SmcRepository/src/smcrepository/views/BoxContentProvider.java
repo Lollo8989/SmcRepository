@@ -44,10 +44,21 @@ public class BoxContentProvider implements ITreeContentProvider,
 	public Object[] getChildren(Object parentElement) {
 		if (parentElement instanceof Box) {
 			Box box = (Box) parentElement;
-			return concat(box.getBoxes().toArray(),box.getWorkspaces().toArray(),box.getResources().toArray());
 			
-		}
+			return concat(box.getBoxes().toArray(),box.getWorkspaces().toArray(),box.getResources().toArray());
+		}	
+		else if (parentElement instanceof Workspace) {
+				Workspace work=(Workspace) parentElement;
+				return concat(work.getResource().toArray());
+			}
 		return EMPTY_ARRAY;
+	}
+	
+	
+	protected Object[] concat(Object[] object) {
+		Object[] both = new Object[object.length];
+		System.arraycopy(object, 0, both, 0, object.length);
+		return both;
 	}
 
 	protected Object[] concat(Object[] object, Object[] more, Object[] more2) {
@@ -85,8 +96,8 @@ public class BoxContentProvider implements ITreeContentProvider,
 	 * @see IDeltaListener#add(DeltaEvent)
 	 */
 	public void add(DeltaEvent event) {
-		Object movingBox = ((Model) event.receiver()).getParent();
-		viewer.refresh(movingBox, false);
+		Object Box = ((Model) event.receiver()).getParent();
+		viewer.refresh(Box, false);
 	}
 
 	/*

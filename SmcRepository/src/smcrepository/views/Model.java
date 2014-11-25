@@ -6,7 +6,9 @@ import java.util.List;
 
 public abstract class Model implements Serializable {
 	public Box parent;
+	public Workspace parentw;
 	public String name;
+	public String namework;
 	//resources
 	public int idR;
 	public String nameR,tipologiaR,contenutoR,pubblicoR;
@@ -44,10 +46,13 @@ public abstract class Model implements Serializable {
 	/*
 	 * The receiver should visit the toVisit object and pass along the argument.
 	 */
-	public abstract void accept(IModelVisitor visitor, Object passAlongArgument);
+
 
 	public String getName() {
 		return name;
+	}
+	public String getNamework() {
+		return namework;
 	}
 
 
@@ -80,6 +85,7 @@ public abstract class Model implements Serializable {
 		this.tipologiaW=tipologiaW;
 		this.resourcesW=new ArrayList();
 		this.resourcesW.addAll(resourcesW);
+		this.namework=nameW;
 	}
 	
 	

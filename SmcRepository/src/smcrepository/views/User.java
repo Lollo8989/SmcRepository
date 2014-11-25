@@ -96,9 +96,7 @@ public class User extends ViewPart {
 		hookContextMenu(treeViewer);
 		// Create menu, toolbars, filters, sorters.
 		//createFiltersAndSorters();
-		createActions();
-		//createMenus();
-		createToolbar();
+		
 		//hookListeners();
 	
 		Shell shell=new Shell();
@@ -116,6 +114,9 @@ public class User extends ViewPart {
 		    			      System.out.println(pw);
 		    			      if(user.equals("paola") && pw.equals("123"))
 		    			      {
+		    			    	  createActions();
+		    			  		  //createMenus();
+		    			  		  createToolbar();
 		    			    	  repository=new Repository();
 		    			    	  treeViewer.setInput(getInitalInput(repository));
 		    			    	  treeViewer.expandAll();
@@ -430,12 +431,13 @@ public class User extends ViewPart {
 		  for (int i=0;i<workspaces.size();i++) {
 			  
 			 // Workspace workspace= new Workspace(workspaces.get(i).getidW(),workspaces.get(i).getNameW(),workspaces.get(i).getDescrizioneW(),workspaces.get(i).getTipologiaW(),workspaces.get(i).getResourcesW());
-			  Box workspace=new Box("WS"+workspaces.get(i).getidW());  
+			  //Box workspace=new Box("WS"+workspaces.get(i).getidW());  
 			  //Box workspace=new Box(workspaces.get(i).getidW());
+			  //Workspace workspace=new Workspace(workspaces.get(i).getNameW());
+			  Workspace workspace=new Workspace(workspaces.get(i).getidW(),workspaces.get(i).getNameW(),workspaces.get(i).getDescrizioneW(),workspaces.get(i).getTipologiaW(),workspaces.get(i).getResourcesW());
 			  
-			  workspace.add(new Workspace(workspaces.get(i).getidW(),workspaces.get(i).getNameW(),workspaces.get(i).getDescrizioneW(),workspaces.get(i).getTipologiaW(),workspaces.get(i).getResourcesW()));
 			  ws.add(workspace);
-			  
+			  //workspace.add(new Workspace(workspaces.get(i).getidW(),workspaces.get(i).getNameW(),workspaces.get(i).getDescrizioneW(),workspaces.get(i).getTipologiaW(),workspaces.get(i).getResourcesW()));
 			  List<Resource> resourcesList=null;
 			  resourcesList=workspaces.get(i).getResourcesW();
 			  
