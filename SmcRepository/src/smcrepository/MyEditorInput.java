@@ -1,8 +1,12 @@
 package smcrepository;
 
+import java.util.List;
+
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IPersistableElement;
+
+import smcrepository.views.Comment;
 
 public class MyEditorInput implements IEditorInput {
 
@@ -11,13 +15,14 @@ public class MyEditorInput implements IEditorInput {
     private String contenuto;
     private String tipologia;
     private int idWorkspace;
+    List<Comment> comments;
    
-    public MyEditorInput(int id,String name,String contenuto,String tipologia,int idWorkspace) {
+    public MyEditorInput(int id,String name,String contenuto,String tipologia,int idWorkspace, List<Comment> comments) {
         this.id = id;
         this.name=name;
         this.contenuto=contenuto;
         this.tipologia=tipologia;
-        this.idWorkspace=idWorkspace;
+        this.comments=comments;
     }
     public String getNameR()
     {
@@ -38,6 +43,10 @@ public class MyEditorInput implements IEditorInput {
     public int getId() {
         return id;
     }
+    
+    public  List<Comment> getCommentR(){
+		return comments;
+	}
 
     @Override
     public boolean exists() {

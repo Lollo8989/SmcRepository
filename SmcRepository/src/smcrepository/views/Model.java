@@ -39,6 +39,13 @@ public abstract class Model implements Serializable {
 		this.nameW = nameW;
 	}
 
+	public void setVisibility(String visibility) {
+		this.pubblicoR = visibility;
+	}
+	public void setVisibilityWs(String visibility) {
+		this.tipologiaW = visibility;
+	}
+	
 	public Box getParent() {
 		return parent;
 	}
@@ -86,6 +93,7 @@ public abstract class Model implements Serializable {
 		this.resourcesW=new ArrayList();
 		this.resourcesW.addAll(resourcesW);
 		this.namework=nameW;
+
 	}
 	
 	

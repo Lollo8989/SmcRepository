@@ -46,6 +46,24 @@ public class Serializer {
 		return true;
    }
    
+   public static void deleteFile() {
+	   
+	   try {
+		   File file = new File(getPath());
+		   if (file.exists()) {
+			   file.delete();
+		   }
+		   
+		   
+	   }catch(Exception e){
+		   
+   		e.printStackTrace();
+
+   	}
+
+   }
+   
+   
    
    public static Repository estrazione(){
  		 

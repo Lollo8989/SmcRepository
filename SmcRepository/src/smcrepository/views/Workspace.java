@@ -29,6 +29,7 @@ public class Workspace extends Model implements Serializable {
 		
 		super(id,name,descrizione,tipologia,resources);
 		this.resources = new ArrayList();
+		
 	}	
 	
 	

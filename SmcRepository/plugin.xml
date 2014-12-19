@@ -101,29 +101,33 @@
 			id="smcrepository.ui.command.removeResources"/>
 		<command name="remove" description="Remove workspace"
 			id="smcrepository.ui.command.removeWorkspace"/>
-		<command name="copy" description="Copy resources"
-			id="smcrepository.ui.command.copyResources"/>
-		<command name="paste" description="Paste resource"
-			id="smcrepository.ui.command.pasteResources"/>
+		<command name="Move to" description="Move to"
+			id="smcrepository.ui.command.moveto"/>
 		<command name="renamer" description="Rename resource"
 			id="smcrepository.ui.command.renameResources"/>
 		<command name="renamew" description="Rename workspace"
 			id="smcrepository.ui.command.renameWorkspace"/>
-			
+		<command name="changevisibility" description="Change visibility"
+			id="smcrepository.ui.command.changevisibility"/>
+		<command name="changevisibilityw" description="Change visibility Ws"
+			id="smcrepository.ui.command.changevisibilityw"/>	
 	</extension>
 	<extension point="org.eclipse.ui.handlers">
 		<handler class=
 			"smcrepository.Remove"
 		commandId="smcrepository.ui.command.removeResources"/>
 		<handler class=
+			"smcrepository.ChangeVisibility"
+		commandId="smcrepository.ui.command.changevisibilityw"/>
+		<handler class=
+			"smcrepository.ChangeVisibility"
+		commandId="smcrepository.ui.command.changevisibility"/>
+		<handler class=
 			"smcrepository.Remove"
 		commandId="smcrepository.ui.command.removeWorkspace"/>
 		<handler class=
-			"smcrepository.CopyResource"
-		commandId="smcrepository.ui.command.copyResources"/>
-		<handler class=
-			"smcrepository.PasteResource"
-		commandId="smcrepository.ui.command.pasteResources"/>
+			"smcrepository.MoveResource"
+		commandId="smcrepository.ui.command.moveto"/>
 		<handler class=
 			"smcrepository.Rename"
 		commandId="smcrepository.ui.command.renameResources"/>
@@ -144,6 +148,26 @@
 				</with>
 				</visibleWhen>
 			</command>
+			<command label="Change visibility" style="push"
+				commandId="smcrepository.ui.command.changevisibilityw">
+				<visibleWhen checkEnabled="false">
+				<with variable="selection">
+					<iterate ifEmpty="false">
+						<adapt type="smcrepository.views.Workspace"/>
+					</iterate>
+				</with>
+				</visibleWhen>
+			</command>
+			<command label="Change visibility" style="push"
+				commandId="smcrepository.ui.command.changevisibility">
+				<visibleWhen checkEnabled="false">
+				<with variable="selection">
+					<iterate ifEmpty="false">
+						<adapt type="smcrepository.views.Resource"/>
+					</iterate>
+				</with>
+				</visibleWhen>
+			</command>
 			<command label="Remove workspace" style="push"
 				commandId="smcrepository.ui.command.removeWorkspace">
 				<visibleWhen checkEnabled="false">
@@ -156,18 +180,8 @@
 			</command>
 			
 		
-			<command label="Copy" style="push"
-				commandId="smcrepository.ui.command.copyResources">
-				<visibleWhen checkEnabled="false">
-				<with variable="selection">
-					<iterate ifEmpty="false">
-						<adapt type="smcrepository.views.Resource"/>
-					</iterate>
-				</with>
-				</visibleWhen>
-			</command>
-			<command label="Paste" style="push"
-				commandId="smcrepository.ui.command.pasteResources">
+			<command label="Move to" style="push"
+				commandId="smcrepository.ui.command.moveto">
 				<visibleWhen checkEnabled="false">
 				<with variable="selection">
 					<iterate ifEmpty="false">

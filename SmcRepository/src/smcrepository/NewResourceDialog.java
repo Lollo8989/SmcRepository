@@ -70,11 +70,12 @@ public class NewResourceDialog extends Dialog{
         false, 1, 1);
     gd_lblNewLabel1.horizontalIndent = 2;
     lblPubblico.setLayoutData(gd_lblNewLabel1);
-    lblPubblico.setText("Select visibility:");
+    lblPubblico.setText("Pubblic?");
     
-    txtpubblico = new Combo(container,SWT.NONE);
+    txtpubblico = new Combo(container,SWT.READ_ONLY);
     
     txtpubblico.add("Si");
+    txtpubblico.select(0);
     txtpubblico.add("No");
     //pubblico=txtpubblico.getSelection().toString();
     
@@ -86,10 +87,11 @@ public class NewResourceDialog extends Dialog{
     lblTipologia.setLayoutData(gd_lblNewLabel2);
     lblTipologia.setText("Select tipology:");
     
-    txttipologia = new Combo(container,SWT.NONE);
+    txttipologia = new Combo(container,SWT.READ_ONLY);
    
   
     txttipologia.add("ASTS");
+    txttipologia.select(0);
     txttipologia.add("AnCTL");
     txttipologia.add("Ontologia");
     //tipologia=txttipologia.getSelection().toString();
@@ -102,10 +104,10 @@ public class NewResourceDialog extends Dialog{
     lblWorkspace.setText("Select workspace:");
     
     Repository rep= Serializer.estrazione();
-    txtWorkspace = new Combo(container,SWT.NONE);
-
+    txtWorkspace = new Combo(container,SWT.READ_ONLY);
+   
     txtWorkspace.add("no workspace");
-    
+    txtWorkspace.select(0);
     for(int i=0;i<rep.getWorkspaceList().size();i++)
     {
     	//int ws=rep.getWorkspaceList().get(i).getidW();

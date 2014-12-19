@@ -1,53 +1,58 @@
 package smcrepository.views;
 
-
-
-
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Logger;
 
+import javax.inject.Inject;
 
-
-
-
-
-
-
-
-
-
-
+import org.apache.oltu.oauth2.client.OAuthClient;
+import org.apache.oltu.oauth2.client.URLConnectionClient;
+import org.apache.oltu.oauth2.client.request.OAuthClientRequest;
+import org.apache.oltu.oauth2.client.response.OAuthAccessTokenResponse;
+import org.apache.oltu.oauth2.common.exception.OAuthProblemException;
+import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
+import org.apache.oltu.oauth2.common.message.types.GrantType;
+import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.jface.action.Action;
-import org.eclipse.jface.action.IMenuListener;
-import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.ListViewer;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.jface.viewers.ViewerFilter;
-import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.IPageLayout;
+import org.eclipse.ui.IPerspectiveDescriptor;
+import org.eclipse.ui.IViewReference;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.IHandlerService;
+import org.eclipse.ui.internal.Perspective;
+import org.eclipse.ui.internal.Workbench;
 import org.eclipse.ui.part.ViewPart;
 
+import perspective.SmcRepository;
+import smcrepository.LogoutDialog;
 import smcrepository.NewResourceDialog;
 import smcrepository.NewWorkspaceDialog;
 import smcrepository.PasswordDialog;
@@ -60,23 +65,31 @@ public class User extends ViewPart {
 	protected BoxLabelProvider labelProvider;
 	protected static Box root;
 	public static final String ID = "smcrepository.views.User";
-	public URL url,url2;
+	public URL url,url2,url3;
 	protected String nameR,contenutoR,tipologiaR,pubblicoR;
 	protected String nameW,descrizioneW,tipologiaW;
 	protected int wsId;
+	List<Comment> comment=new ArrayList();
 
+	//Importante	!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	@Inject
+	private IEventBroker eventBroker;
+	//Fine Importante	!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	
+	
 	// NUOVO
 	//protected ViewerFilter onlyBoardGamesFilter, atLeastThreeFilter;
 	//protected ViewerSorter booksBoxesGamesSorter, noArticleSorter;
 	//protected Action onlyBoardGamesAction, atLeatThreeItems;
 	//protected Action booksBoxesGamesAction, noArticleAction;
-	protected Action addResourceAction,addWorkspaceAction;
+	protected Action addResourceAction,addWorkspaceAction,logout;
 	// FINE NUOVO
 
 	// ********************************************
 	protected Repository repository;
 	protected static List<Resource> resources;
 	protected static List<Workspace> workspaces;
+	public String token;
 
 	public void createPartControl(Composite parent) {
 		treeViewer = new TreeViewer(parent, SWT.MULTI| SWT.H_SCROLL |SWT.V_SCROLL);
@@ -88,8 +101,47 @@ public class User extends ViewPart {
 		labelProvider = new BoxLabelProvider();
 		treeViewer.setLabelProvider(labelProvider);
 		treeViewer.setUseHashlookup(true);
-		//comment=new Comment();
-
+	 
+		
+		//Ascoltatore per aggiornare la View "Comments"
+		treeViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+			
+			@Override
+			public void selectionChanged(SelectionChangedEvent event) {
+				  
+					List<Comment> listaCommenti=new ArrayList();
+				
+				  	IStructuredSelection selection =  (IStructuredSelection)treeViewer.getSelection();
+				  	
+				  	//Se nell'albero è selezionato più di un'elemento, nella view "Comments" non viene visualizzato niente.
+				  	if(selection.size() > 1)
+				  	{
+				  		comment=new ArrayList();
+				  		listaCommenti = comment; 
+				  		} 
+				  	else{
+						  	Object selezionato = selection.getFirstElement();
+						  //	System.out.println(selezionato.getClass());
+						  					  	
+			                if (selezionato instanceof Resource) {
+			                	
+			                	listaCommenti=((Resource) selezionato).getCommentsR();
+						       
+								System.out.println("Messaggio mandato");
+			                }
+			                else {
+			                	System.out.println("Niente");
+			                	
+			                	listaCommenti = comment;
+			                }
+				  	}
+	                eventBroker = (IEventBroker) PlatformUI.getWorkbench().getService(IEventBroker.class);
+	                eventBroker.send("CommentsUpdate",listaCommenti);
+			}
+		});
+		//Fine ascoltatore per aggiornare la View "Comments"
+		
+		
 		
 		getSite().setSelectionProvider(treeViewer);
 		hookDoubleClickCommand();
@@ -112,7 +164,12 @@ public class User extends ViewPart {
 		    			      String pw = dialog.getPassword();
 		    			      System.out.println(user);
 		    			      System.out.println(pw);
-		    			      if(user.equals("paola") && pw.equals("123"))
+		    			      
+		    			      
+		    			      token=directTokenRequest(user, pw);
+		    			      System.out.println(token);
+		    			      
+		    			      if(token!=null)
 		    			      {
 		    			    	  createActions();
 		    			  		  //createMenus();
@@ -127,6 +184,9 @@ public class User extends ViewPart {
 		    	  }
 		    	   else {
 		    		   Repository addr2 = Serializer.estrazione();
+ 						createActions();
+ 			  		   //createMenus();
+ 			  		   createToolbar();
 		    		   treeViewer.setInput(getInitalInput(addr2));
 		    		   treeViewer.expandAll();
 		    	   }
@@ -198,13 +258,57 @@ public class User extends ViewPart {
 		treeViewer.getTree().setRedraw(true);
 	}
 */
+	protected void logout(){
+		
+		Shell shell=new Shell();
+
+		LogoutDialog dialog = new LogoutDialog(shell);
+		
+		if (dialog.open() == Window.OK) {
+			
+			
+			Serializer.deleteFile();
+			
+			//IWorkbenchPage page=Workbench.getInstance().getActiveWorkbenchWindow().getActivePage();
+	
+			IWorkbench wb=PlatformUI.getWorkbench();
+			
+			IWorkbenchWindow win = wb.getActiveWorkbenchWindow();
+
+			IWorkbenchPage page = win.getActivePage();
+
+			IPerspectiveDescriptor perspective = page.getPerspective();
+			
+	
+			page.closePerspective(perspective, false, true);
+			
+			//Perspective perspective = page.getPerspective();
+			//page.closePerspective((IPerspectiveDescriptor) perspective, false, true);
+
+			//tring viewId = "smcrepository.views.User"; 
+
+			//get the reference for your viewId
+			//IViewReference ref = page.findViewReference(viewId);
+
+					//release the view
+			//perspective.getViewFactory.releaseView(ref);
+
+			
+		}
+		
+		
+		
+		
+	}
+	
+	
 	protected void addNewWorkspace(){
 		
 		Shell shell=new Shell();
 
 		NewWorkspaceDialog dialog = new NewWorkspaceDialog(shell);
 		
-		if (dialog.open() == Window.OK) {
+		if (dialog.open() == Window.OK && !dialog.getName().equals("")) {
 			
 			nameW=dialog.getName();
 			descrizioneW=dialog.getDescrizione();
@@ -235,7 +339,7 @@ public class User extends ViewPart {
 
 		NewResourceDialog dialog = new NewResourceDialog(shell);
 		
-		if (dialog.open() == Window.OK) {
+		if (dialog.open() == Window.OK && !dialog.getName().equals("")) {
 			
 			nameR=dialog.getName();
 			contenutoR=dialog.getContenuto();
@@ -323,7 +427,11 @@ public class User extends ViewPart {
 		//	}
 		//};
 		//noArticleAction.setChecked(false);
-		
+		logout = new Action("Logout") {
+			public void run() {
+				logout();
+			}
+		};
 		
 		
 		addResourceAction = new Action("Add Resource") {
@@ -345,20 +453,22 @@ public class User extends ViewPart {
 		//addBookAction.setImageDescriptor(TreeViewerPlugin.getImageDescriptor("newBook.gif"));
 		
 		
-	/*	
-		url2 = getClass().getResource("/icons/newBook.gif");
-		addResourceAction.setToolTipText("Add a New Workspace");
+	
+		url = getClass().getResource("/icons/logout.gif");
+		logout.setToolTipText("Logout");
+		logout.setImageDescriptor(ImageDescriptor.createFromURL(url));
+		
+	
+		
 
-		addResourceAction.setImageDescriptor(ImageDescriptor.createFromURL(url2));
-		
-		
-		
-
-		url = getClass().getResource("/icons/addres.gif");
+		url2 = getClass().getResource("/icons/resource+.gif");
 		addResourceAction.setToolTipText("Add a New Resource");
+		addResourceAction.setImageDescriptor(ImageDescriptor.createFromURL(url2));
 
-		addResourceAction.setImageDescriptor(ImageDescriptor.createFromURL(url));
-*/
+		
+		url3 = getClass().getResource("/icons/ws+.gif");
+		addWorkspaceAction.setToolTipText("Add a New Workspace");
+		addWorkspaceAction.setImageDescriptor(ImageDescriptor.createFromURL(url3));
 	
 	}
 		
@@ -484,6 +594,7 @@ public class User extends ViewPart {
 				.getToolBarManager();
 		toolbarManager.add(addResourceAction);
 		toolbarManager.add(addWorkspaceAction);
+		toolbarManager.add(logout);
 		//toolbarManager.add(removeAction);
 	}
 /*
@@ -552,4 +663,85 @@ public class User extends ViewPart {
 		// TODO Auto-generated method stub
 
 	}
+	
+	
+	
+	 private static String directTokenRequest(String user, String pass) {
+	    	
+	    	
+	        try {
+	        	 URL url2;
+				try {
+					//url2 = new URL("http://localhost:8080/de.vogella.jersey.todo");
+					
+					/*
+					//Prova GET
+					
+					final String USER_AGENT = "Mozilla/5.0";
+					
+					String url = "http://localhost:8080/oauth2/api/token";
+					 
+					URL obj = new URL(url);
+					HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+			 
+					// optional default is GET
+					con.setRequestMethod("POST");
+			 
+					//add request header
+					con.setRequestProperty("User-Agent", USER_AGENT);
+			 
+					int responseCode = con.getResponseCode();
+					System.out.println("\nSending 'GET' request to URL : " + url);
+					System.out.println("Response Code : " + responseCode);
+			 
+					BufferedReader in = new BufferedReader(
+					        new InputStreamReader(con.getInputStream()));
+					String inputLine;
+					StringBuffer response = new StringBuffer();
+			 
+					while ((inputLine = in.readLine()) != null) {
+						response.append(inputLine);
+					}
+					in.close();
+			 
+					//print result
+					System.out.println(response.toString());
+			 
+					
+					// Fine prova GET
+					
+					*/
+					
+					url2 = new URL("http://localhost:8080/oauth2/api");
+					OAuthClientRequest request = OAuthClientRequest
+		                    .tokenLocation(url2.toString() + "/token")
+		                    .setGrantType(GrantType.PASSWORD)
+		                    .setClientId("oauth2test")
+		                    .setClientSecret("oauth2clientsecret")
+		                    .setUsername(user)
+		                    .setPassword(pass)
+		                    .buildBodyMessage();
+					
+					OAuthClient oAuthClient = new OAuthClient(new URLConnectionClient());
+		            OAuthAccessTokenResponse oauthResponse = oAuthClient.accessToken(request);
+		            System.out.println(oauthResponse.getAccessToken().toString());
+		            return oauthResponse.getAccessToken().toString();
+		            
+		            
+				} catch (MalformedURLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	            
+	            
+	        } catch (OAuthSystemException | OAuthProblemException ex ) {
+	            //Logger.getLogger(AuthTest.class.getName()).log(Level.SEVERE, null, ex);
+	        	ex.printStackTrace();
+	        } catch (Exception e)
+	        {
+	        	e.printStackTrace();
+	        }
+	        return null; 
+	    
+	    }
 }

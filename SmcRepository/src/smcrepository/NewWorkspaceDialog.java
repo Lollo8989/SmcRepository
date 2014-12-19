@@ -71,10 +71,11 @@ public class NewWorkspaceDialog extends Dialog{
     lblTipologia.setLayoutData(gd_lblNewLabel2);
     lblTipologia.setText("Select tipology:");
     
-    txttipologia = new Combo(container,SWT.NONE);
+    txttipologia = new Combo(container,SWT.READ_ONLY);
    
   
     txttipologia.add("Pubblico");
+    txttipologia.select(0);
     txttipologia.add("Privato");
     txttipologia.add("Condiviso");
     //tipologia=txttipologia.getSelection().toString();

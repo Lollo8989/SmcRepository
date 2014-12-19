@@ -33,14 +33,26 @@ public class BoxLabelProvider extends LabelProvider {
 		ir.put("Other", ImageDescriptor.createFromURL(url));
 
 		//resources
-		url=getClass().getResource("/icons/resource.gif");
-		ir.put("Resources", ImageDescriptor.createFromURL(url));
+		url=getClass().getResource("/icons/public.gif");
+		ir.put("ResourcesPub", ImageDescriptor.createFromURL(url));
+		
+		url=getClass().getResource("/icons/private.gif");
+		ir.put("ResourcesPriv", ImageDescriptor.createFromURL(url));
+		
 		//workspace
 		url=getClass().getResource("/icons/ws.gif");
 		ir.put("Workspaces", ImageDescriptor.createFromURL(url));
 		
         if (element instanceof Resource) {
-        	return ir.get("Resources");
+        	Resource res=(Resource) element;
+        	if(res.getPubblicoR().equals("Si"))
+        	{
+        			return ir.get("ResourcesPub");
+        	}
+        	else 
+        	{
+        		return ir.get("ResourcesPriv");
+        	}
         }
         else if (element instanceof Workspace) {
         	
@@ -70,7 +82,7 @@ public class BoxLabelProvider extends LabelProvider {
 					.getNameR());
 		}
 			else if (element instanceof Workspace) {
-			return (((Workspace) element).getNamework());
+			return ((Workspace) element).getidW()+"-"+((Workspace) element).getNamework();
 
 		} else
 			throw unknownElement(element);
