@@ -35,9 +35,10 @@ public class Repository implements Serializable {
 		resourcesList=new ArrayList();
 		resourcesList2=new ArrayList();
 		resourcesList3=new ArrayList();
-		comments1.add(new Comment("21/10/14","Paola","è una risorsa ASTS,con id=1"));
-		comments1.add(new Comment("21/10/14","Lollo","è una risorsa ASTS"));
-		comments2.add(new Comment("11/11/14","Lollo","è una risorsa AnCTL"));
+		comments1.add(new Comment("21/10/14","20:15","Paola","è una risorsa ASTS con id=1"));
+		comments1.add(new Comment("21/10/14","17:09","Lorenzo","è una risorsa ASTS"));
+		comments1.add(new Comment("21/10/14","13:08","Lorenzo","c'è un errore!"));
+		comments2.add(new Comment("11/11/14","15:35","Paola","è una risorsa AnCTL"));
 		resourcesList.add(new Resource(1, "RisASTS", "ASTS", "risorsa asts", "No",comments1,0));
 		resourcesList.add(new Resource(2, "RisAnCTL", "AnCTL", "risorsa anctl prova1", "No", comments2,0));
 		resourcesList.add(new Resource(3,"RisAnCTL","AnCTL","risorsa anctl prova2","Si",comments2,0));

@@ -37,7 +37,7 @@ public class MoveResource extends AbstractHandler  {
 					Resource res=((Resource) value);
 					
 					Shell shell=new Shell();
-
+					if(res.getPubblicoR().equals("Si")) {
 					MoveDialog dialog = new MoveDialog(shell);
 					
 					if (dialog.open() == Window.OK && dialog.getIDWorkspace()!=0) {
@@ -88,10 +88,61 @@ public class MoveResource extends AbstractHandler  {
 					
 					
 				
+				else {
+					Shell shell2=new Shell();
+					MoveDialog2 dialog = new MoveDialog2(shell2);
+					
+					if (dialog.open() == Window.OK) {
+						MoveDialog dialog1 = new MoveDialog(shell2);
+						
+						if (dialog1.open() == Window.OK) {
+							wsId=dialog1.getIDWorkspace();
+							Repository rep = Serializer.estrazione();
+							
+							if(res.getIdWorkspace()==0)
+							{
+								for(int i=0;i<rep.getResourcesList().size();i++) {
+									if(rep.getResourcesList().get(i).getidR()==res.getidR()) {
+										rep.getResourcesList().remove(i);
+										for(int j=0;j<rep.getWorkspaceList().size();j++) {
+											
+											if(rep.getWorkspaceList().get(j).getidW()==wsId) {
+												rep.getWorkspaceList().get(j).getResourcesW().add(new Resource(res.getidR(),res.getNameR(),res.getTipologiaR(),res.getContenutoR(),"Si",res.getCommentsR(),wsId));
+											}
+										}
+											
+									}
+								}
+							}
+							else {
+								for (int i=0;i<rep.getWorkspaceList().size();i++) {
+									if(rep.getWorkspaceList().get(i).getidW()==res.getIdWorkspace()) {
+										for(int j=0;j<rep.getWorkspaceList().get(i).getResourcesW().size();j++) {
+											if (rep.getWorkspaceList().get(i).getResourcesW().get(j).getidR()==res.getidR())
+												rep.getWorkspaceList().get(i).getResourcesW().remove(j);
+										}
+									}
+									
+									if(rep.getWorkspaceList().get(i).getidW()==wsId) {
+										
+										rep.getWorkspaceList().get(i).getResourcesW().add(new Resource(res.getidR(),res.getNameR(),res.getTipologiaR(),res.getContenutoR(),"Si",res.getCommentsR(),wsId));
+									}
+								}
+							}
+						
+							
+							Serializer.saveFile(rep);
+							User.restartView(rep);
+						}
+						
+						
+					}
+				}
 		}
-		
+				}
 			
 		return null;
-	}
+	
 
+	}
 }

@@ -6,12 +6,14 @@ public class Comment implements Serializable {
 	private String data;
 	private String autore;
 	private String testo;
+	private String ora;
 
 	// costruttore
-	public Comment(String data, String autore, String testo) {
+	public Comment(String data, String ora, String autore, String testo) {
 		this.data = data;
 		this.autore = autore;
 		this.testo = testo;
+		this.ora = ora;
 	}
 
 	public String getData() {
@@ -36,6 +38,14 @@ public class Comment implements Serializable {
 
 	public void setTesto(String testo) {
 		this.testo = testo;
+	}
+
+	public String getOra() {
+		return ora;
+	}
+
+	public void setOra(String ora) {
+		this.ora = ora;
 	}
 
 }

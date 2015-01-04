@@ -72,7 +72,7 @@ public class CommentView extends ViewPart{
 	@Override
 	public void createPartControl(Composite parent) {
 		
-		tableViewer=new TableViewer(parent,SWT.H_SCROLL|SWT.V_SCROLL);
+		tableViewer=new TableViewer(parent,SWT.V_SCROLL);
 		//rende visibile l'intestazione della tabella
 		tableViewer.getTable().setHeaderVisible(true);
 		tableViewer.setContentProvider(
@@ -89,6 +89,7 @@ public class CommentView extends ViewPart{
      
   
         new CommentDataColumn().addColumnTo(tableViewer);  //colonna per la data
+        new CommentOraColumn().addColumnTo(tableViewer);  //colonna per l'ora
         new CommentUserColumn().addColumnTo(tableViewer);  //colonna per l'autore
         new CommentTextColumn().addColumnTo(tableViewer);  //colonna per il testo
       
