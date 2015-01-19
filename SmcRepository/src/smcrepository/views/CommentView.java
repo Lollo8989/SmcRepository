@@ -54,7 +54,7 @@ public class CommentView extends ViewPart{
  		public void handleEvent(Event event) {
        	  	List<Comment> commenti = (List<Comment>) event.getProperty(IEventBroker.DATA);
     	  	tableViewer.setInput(commenti);
-    	  	System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+    	  	
     	
  		}
     };
@@ -84,7 +84,7 @@ public class CommentView extends ViewPart{
         eventBroker = (IEventBroker) PlatformUI.getWorkbench().getService(IEventBroker.class); 
 	    eventBroker.subscribe("CommentsUpdate",handlerComments);
         
-        System.out.println("Messaggio Ricevuto");
+
         
      
   

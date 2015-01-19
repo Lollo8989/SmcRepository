@@ -38,9 +38,11 @@ public class ChangeDialogWs extends Dialog {
 		    
 		
 		    
-		    visibility.add("Privato");
-		    visibility.add("Pubblico");
-		    visibility.add("Condiviso");
+		    visibility.add("privato");
+		    visibility.select(0);
+		    visibility.add("pubblico");
+		    visibility.add("condiviso");
+		    
 
 		    return container;
 		  }

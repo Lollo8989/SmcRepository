@@ -82,6 +82,20 @@ public class BoxLabelProvider extends LabelProvider {
 					.getNameR());
 		}
 			else if (element instanceof Workspace) {
+				Workspace ws=(Workspace) element;
+				if(ws.getTipologiaW().equals("pubblico"))
+				{
+					return ((Workspace) element).getidW()+"-"+((Workspace) element).getNamework() +" (Pubblico)";
+				}
+				else if(ws.getTipologiaW().equals("condiviso"))
+				{
+					return ((Workspace) element).getidW()+"-"+((Workspace) element).getNamework() +" (Condiviso)";
+				}
+				else if(ws.getTipologiaW().equals("privato"))
+				{
+					return ((Workspace) element).getidW()+"-"+((Workspace) element).getNamework() +" (Privato)";
+				}
+				
 			return ((Workspace) element).getidW()+"-"+((Workspace) element).getNamework();
 
 		} else

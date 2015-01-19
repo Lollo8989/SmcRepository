@@ -74,10 +74,10 @@ public class NewWorkspaceDialog extends Dialog{
     txttipologia = new Combo(container,SWT.READ_ONLY);
    
   
-    txttipologia.add("Pubblico");
+    txttipologia.add("pubblico");
     txttipologia.select(0);
-    txttipologia.add("Privato");
-    txttipologia.add("Condiviso");
+    txttipologia.add("privato");
+    txttipologia.add("condiviso");
     //tipologia=txttipologia.getSelection().toString();
     
     return container;

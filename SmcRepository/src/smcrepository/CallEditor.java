@@ -48,7 +48,7 @@ public class CallEditor extends AbstractHandler {
 
   @Override
   public Object execute(ExecutionEvent event) throws ExecutionException {
-    System.out.println("called");
+ 
     // get the view
     IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindow(event);
     IWorkbenchPage page = window.getActivePage();
@@ -78,33 +78,33 @@ public class CallEditor extends AbstractHandler {
 					public void partVisible(IWorkbenchPartReference partRef) {
 						// TODO Auto-generated method stub						
 						updateViewComment(partRef);
-						System.out.println("partvisible");
+				
 					}
 					
 					@Override
 					public void partOpened(IWorkbenchPartReference partRef) {
 						// TODO Auto-generated method stub
 						updateViewComment(partRef);
-						System.out.println("partopen");
+			
 						
 					}
 					
 					@Override
 					public void partInputChanged(IWorkbenchPartReference partRef) {
 						// TODO Auto-generated method stub
-						System.out.println("partinputchanged");
+					
 					}
 					
 					@Override
 					public void partHidden(IWorkbenchPartReference partRef) {
 						// TODO Auto-generated method stub
-						System.out.println("partHidden");
+				
 					}
 					
 					@Override
 					public void partDeactivated(IWorkbenchPartReference partRef) {
 						// TODO Auto-generated method stub
-						System.out.println("partDeactivated");
+				
 					}
 					
 					@Override
@@ -114,27 +114,27 @@ public class CallEditor extends AbstractHandler {
 						//Serve per conoscere il numero di editor aperti
 						if(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getEditorReferences().length == 0){
 							updateViewComment(null);
-							System.out.println("Tutti gli editor sono chiusi");
+			
 						}
 							
 						
-						System.out.println("partClosed");
+		
 					}
 					
 					@Override
 					public void partBroughtToTop(IWorkbenchPartReference partRef) {
 						// TODO Auto-generated method stub
-						System.out.println("partBroughtToTop");
+			
 												
 					}
 					
 					@Override
 					public void partActivated(IWorkbenchPartReference partRef) {
 						// TODO Auto-generated method stub
-						System.out.println("partActivated2");
+			
 						
 						updateViewComment(partRef);
-						System.out.println("Messaggio mandato");
+						
 				
 					}
 					
@@ -149,7 +149,7 @@ public class CallEditor extends AbstractHandler {
 				                IEditorPart editor = (IEditorPart) part;
 				                input = (MyEditorInput) editor.getEditorInput();
 				                comments = input.getCommentR();
-				                System.out.println("Istanza di IEditorPart");
+				               
 				            }		
 						}
 						eventBroker = (IEventBroker) PlatformUI.getWorkbench().getService(IEventBroker.class); 
